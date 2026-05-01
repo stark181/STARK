@@ -6,64 +6,45 @@ import dynamic from "next/dynamic";
 const PromptSubmitModal = dynamic(() => import("./PromptSubmitModal"), { ssr: false });
 
 interface HeaderProps {
-  onSearch: (query: string) => void;
+  onSearch?: (query: string) => void;
 }
 
 export default function Header({ onSearch }: HeaderProps) {
-  const [query, setQuery] = useState("");
   const [showSubmitModal, setShowSubmitModal] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch(query);
-  };
 
   return (
     <>
-      <header className="bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center justify-between h-14">
             {/* ロゴ */}
-            <div className="flex items-center gap-3 shrink-0">
-              <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-9 h-9" />
-              <div>
-                <span className="font-bold text-lg tracking-tight">AIプロンプト図鑑</span>
-                <span className="hidden sm:inline text-slate-400 text-xs ml-2">AIを使いこなす実践知が集まる場所</span>
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-400 flex items-center justify-center shadow-sm">
+                <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-4 h-4 brightness-0 invert" />
               </div>
+              <span className="font-bold text-gray-900 text-base tracking-tight">AIプロンプト図鑑</span>
             </div>
 
-            {/* 検索バー */}
-            <form onSubmit={handleSubmit} className="flex-1 max-w-xl mx-4 sm:mx-8">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    onSearch(e.target.value);
-                  }}
-                  placeholder="職種・用途・キーワードで検索..."
-                  className="w-full bg-slate-800 text-white placeholder-slate-400 rounded-lg px-4 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 border border-slate-700"
-                />
-                <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-400">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </button>
-              </div>
-            </form>
+            {/* ナビ */}
+            <nav className="hidden md:flex items-center gap-1">
+              {["カテゴリ", "人気順", "新着"].map((item) => (
+                <a key={item} href="#" className="px-4 py-2 rounded-full text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all font-medium">
+                  {item}
+                </a>
+              ))}
+            </nav>
 
             {/* ボタン群 */}
             <div className="flex items-center gap-2 shrink-0">
-              <button className="hidden sm:block text-slate-300 hover:text-white text-sm px-3 py-1.5 rounded-md hover:bg-slate-800 transition-colors">
+              <button className="hidden sm:block text-sm text-gray-500 hover:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-100 transition-all font-medium">
                 ログイン
               </button>
               <button
                 onClick={() => setShowSubmitModal(true)}
-                className="bg-amber-500 hover:bg-amber-600 text-white text-sm px-4 py-1.5 rounded-md font-medium transition-colors flex items-center gap-1.5"
+                className="text-sm font-semibold px-5 py-2 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-400 text-white hover:opacity-90 transition-opacity shadow-sm flex items-center gap-1.5"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
                 </svg>
                 <span className="hidden sm:inline">投稿する</span>
                 <span className="sm:hidden">投稿</span>

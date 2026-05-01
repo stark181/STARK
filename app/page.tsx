@@ -165,8 +165,8 @@ export default function HomePage() {
   }, [searchQuery, selectedCategory, selectedDifficulty, selectedAiTool, sortBy, dbReviewCounts, dbUsageCounts]);
 
   return (
-    <div className="min-h-screen bg-[#f8f7f4]">
-      <Header onSearch={setSearchQuery} />
+    <div className="min-h-screen bg-gray-50">
+      <Header />
       <FilterBar
         selectedCategory={selectedCategory}
         selectedDifficulty={selectedDifficulty}
@@ -179,121 +179,149 @@ export default function HomePage() {
         totalCount={filtered.length}
       />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* ヒーロー */}
+      <section className="bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            {/* 左：テキスト＋検索 */}
+            <div className="max-w-xl">
+              <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 text-gray-500 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 animate-pulse"></span>
+                実践知が集まるAIプロンプトプラットフォーム
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight mb-3">
+                「実際に試して{" "}
+                <span className="bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">
+                  うまくいった
+                </span>」<br />
+                プロンプトが集まる場所
+              </h1>
+              <p className="text-gray-400 text-sm leading-relaxed mb-5">
+                職種・業種・成果が明記された成功事例レビュー付き。試した人の体験が積み重なる、実践型プロンプト図鑑。
+              </p>
+              <div className="flex gap-2 max-w-lg">
+                <div className="flex-1 relative">
+                  <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="職種・用途・キーワードで検索..."
+                    className="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent bg-white"
+                  />
+                </div>
+                <button className="px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold hover:opacity-90 transition-opacity shrink-0">
+                  検索
+                </button>
+              </div>
+            </div>
+            {/* 右：統計 */}
+            <div className="flex sm:flex-col gap-6 sm:gap-3 shrink-0">
+              {[
+                { label: "プロンプト数", value: `${prompts.length}件`, color: "text-blue-500" },
+                { label: "成功事例総数", value: `${prompts.reduce((s, p) => s + p.reviews.length, 0) + Object.values(dbReviewCounts).reduce((s, n) => s + n, 0)}件`, color: "text-violet-500" },
+                { label: "総使用回数", value: `${((prompts.reduce((s, p) => s + p.usageCount, 0) + Object.values(dbUsageCounts).reduce((s, n) => s + n, 0)) / 1000).toFixed(1)}K`, color: "text-pink-500" },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center sm:text-right">
+                  <div className={`text-2xl font-extrabold ${stat.color}`}>{stat.value}</div>
+                  <div className="text-xs text-gray-400 font-medium">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main className="max-w-6xl mx-auto px-6 py-10">
 
         {/* ===== デフォルト表示（フィルターなし） ===== */}
         {isDefaultView ? (
-          <>
-            {/* ヒーローバナー */}
-            <div className="bg-slate-900 rounded-2xl p-6 sm:p-10 mb-10 flex flex-col sm:flex-row items-center gap-6">
-              <div className="flex-1 text-center sm:text-left">
-                <p className="text-amber-400 text-xs font-bold mb-2 tracking-widest uppercase">
-                  実践知が集まるプラットフォーム
-                </p>
-                <h1 className="text-white text-2xl sm:text-3xl font-bold leading-snug mb-3">
-                  「実際に試してうまくいった」<br className="hidden sm:block" />
-                  AIプロンプトが見つかる場所
-                </h1>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  職種・業種・成果が明記された成功事例レビュー付き。<br />
-                  クックパッドのレシピのように、試した人の体験が積み重なります。
-                </p>
-              </div>
-              <div className="grid grid-cols-3 gap-6 shrink-0">
-                {[
-                  { label: "プロンプト数", value: `${prompts.length}件` },
-                  { label: "成功事例総数", value: `${prompts.reduce((s, p) => s + p.reviews.length, 0) + Object.values(dbReviewCounts).reduce((s, n) => s + n, 0)}件` },
-                  { label: "総使用回数", value: `${((prompts.reduce((s, p) => s + p.usageCount, 0) + Object.values(dbUsageCounts).reduce((s, n) => s + n, 0)) / 1000).toFixed(1)}K` },
-                ].map((stat) => (
-                  <div key={stat.label} className="text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-amber-400">{stat.value}</div>
-                    <div className="text-xs text-slate-400 mt-1">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="space-y-10">
+            {CATEGORY_META.map((cat) => {
+              const catPrompts = prompts
+                .filter((p) => p.category === cat.name)
+                .sort(
+                  (a, b) =>
+                    (b.reviews.length + (dbReviewCounts[b.id] ?? 0)) -
+                    (a.reviews.length + (dbReviewCounts[a.id] ?? 0))
+                )
+                .slice(0, 3);
 
-            {/* カテゴリ別トップセクション */}
-            <div className="space-y-10">
-              {CATEGORY_META.map((cat) => {
-                const catPrompts = prompts
-                  .filter((p) => p.category === cat.name)
-                  .sort(
-                    (a, b) =>
-                      (b.reviews.length + (dbReviewCounts[b.id] ?? 0)) -
-                      (a.reviews.length + (dbReviewCounts[a.id] ?? 0))
-                  )
-                  .slice(0, 3);
-
-                return (
-                  <section key={cat.name}>
-                    {/* セクションヘッダー */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${iconBgMap[cat.color]}`}>
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d={cat.icon} />
-                          </svg>
-                        </div>
-                        <div>
-                          <h2 className="text-base font-bold text-slate-900">{cat.name}</h2>
-                          <p className="text-xs text-slate-400">{cat.desc}</p>
-                        </div>
+              return (
+                <section key={cat.name}>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${iconBgMap[cat.color]}`}>
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d={cat.icon} />
+                        </svg>
                       </div>
-                      <button
-                        onClick={() => setSelectedCategory(cat.name)}
-                        className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${colorMap[cat.color]}`}
-                      >
-                        すべて見る →
-                      </button>
+                      <div>
+                        <h2 className="text-base font-bold text-gray-900">{cat.name}</h2>
+                        <p className="text-xs text-gray-400">{cat.desc}</p>
+                      </div>
                     </div>
+                    <button
+                      onClick={() => setSelectedCategory(cat.name)}
+                      className="text-xs font-semibold px-4 py-1.5 rounded-full border border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all"
+                    >
+                      すべて見る →
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {catPrompts.map((p) => (
+                      <PromptCard
+                        key={p.id}
+                        prompt={p}
+                        dbReviewCount={dbReviewCounts[p.id] ?? 0}
+                        dbRatingTotal={dbRatingTotals[p.id]}
+                        dbUsageCount={dbUsageCounts[p.id] ?? 0}
+                      />
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
 
-                    {/* プロンプトカード（横並び） */}
-                    <div className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {catPrompts.map((p) => (
-                        <PromptCard
-                          key={p.id}
-                          prompt={p}
-                          dbReviewCount={dbReviewCounts[p.id] ?? 0}
-                          dbRatingTotal={dbRatingTotals[p.id]}
-                          dbUsageCount={dbUsageCounts[p.id] ?? 0}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                );
-              })}
+            {/* CTA */}
+            <div className="mt-6 rounded-3xl bg-gradient-to-br from-blue-500 via-violet-500 to-pink-500 p-10 text-center text-white relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full translate-x-16 -translate-y-16" />
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full -translate-x-10 translate-y-10" />
+              <div className="relative">
+                <div className="text-3xl mb-3">✦</div>
+                <h2 className="text-xl font-extrabold mb-2">あなたの成功事例をシェアしよう</h2>
+                <p className="text-white/70 text-sm mb-6">うまくいったプロンプトを投稿して、同じ悩みを持つ人を助けよう。</p>
+                <button className="bg-white text-violet-600 font-bold px-8 py-2.5 rounded-full hover:bg-white/90 transition-colors shadow-lg text-sm">
+                  プロンプトを投稿する
+                </button>
+              </div>
             </div>
-          </>
+          </div>
         ) : (
           /* ===== フィルター適用時：検索結果グリッド ===== */
           <>
-            {/* 検索中ヘッダー */}
             <div className="flex items-center gap-3 mb-6">
               {selectedCategory !== "すべて" && (
-                <h2 className="text-lg font-bold text-slate-900">{selectedCategory}</h2>
+                <h2 className="text-lg font-bold text-gray-900">{selectedCategory}</h2>
               )}
               {searchQuery && (
-                <p className="text-sm text-slate-500">
-                  「<span className="font-medium text-slate-900">{searchQuery}</span>」の検索結果
+                <p className="text-sm text-gray-500">
+                  「<span className="font-medium text-gray-900">{searchQuery}</span>」の検索結果
                 </p>
               )}
             </div>
 
             {filtered.length === 0 ? (
-              /* 空状態 */
               <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-5">
-                  <svg className="w-10 h-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-5">
+                  <svg className="w-10 h-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <p className="text-lg font-bold text-slate-700 mb-2">
-                  プロンプトが見つかりませんでした
-                </p>
-                <p className="text-sm text-slate-400 mb-8 max-w-xs">
-                  別のキーワードや条件で試してみてください。
-                </p>
+                <p className="text-lg font-bold text-gray-700 mb-2">プロンプトが見つかりませんでした</p>
+                <p className="text-sm text-gray-400 mb-8 max-w-xs">別のキーワードや条件で試してみてください。</p>
                 <div className="flex flex-wrap gap-3 justify-center">
                   <button
                     onClick={() => {
@@ -302,16 +330,13 @@ export default function HomePage() {
                       setSelectedDifficulty("すべて");
                       setSelectedAiTool("すべて");
                     }}
-                    className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-violet-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-opacity hover:opacity-90"
                   >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
                     条件をリセット
                   </button>
                   <Link
                     href="/"
-                    className="inline-flex items-center gap-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+                    className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors"
                   >
                     トップに戻る
                   </Link>
@@ -320,7 +345,7 @@ export default function HomePage() {
             ) : (
               <div
                 key={`${selectedCategory}-${selectedDifficulty}-${selectedAiTool}-${sortBy}-${searchQuery}`}
-                className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
               >
                 {filtered.map((p) => (
                   <PromptCard
@@ -339,8 +364,8 @@ export default function HomePage() {
       </main>
 
       {/* フッター */}
-      <footer className="border-t border-slate-200 mt-16 py-8 text-center text-slate-400 text-sm">
-        <p>© 2025 AIプロンプト図鑑. AIを使いこなす実践知が集まる場所。</p>
+      <footer className="border-t border-gray-100 mt-16 py-8 text-center text-gray-300 text-sm bg-white">
+        <p>© 2025 AIプロンプト図鑑</p>
       </footer>
     </div>
   );
