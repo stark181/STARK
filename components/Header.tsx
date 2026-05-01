@@ -25,15 +25,6 @@ export default function Header({ onSearch }: HeaderProps) {
               <span className="font-bold text-gray-900 text-base tracking-tight">AIプロンプト図鑑</span>
             </div>
 
-            {/* ナビ */}
-            <nav className="hidden md:flex items-center gap-1">
-              {["カテゴリ", "人気順", "新着"].map((item) => (
-                <a key={item} href="#" className="px-4 py-2 rounded-full text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all font-medium">
-                  {item}
-                </a>
-              ))}
-            </nav>
-
             {/* ボタン群 */}
             <div className="flex items-center gap-2 shrink-0">
               <button className="hidden sm:block text-sm text-gray-500 hover:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-100 transition-all font-medium">
