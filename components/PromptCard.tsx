@@ -4,6 +4,9 @@ import { Prompt } from "@/types";
 interface PromptCardProps {
   prompt: Prompt;
   searchQuery?: string;
+  dbReviewCount?: number;
+  dbRatingTotal?: { sum: number; count: number };
+  dbUsageCount?: number;
 }
 
 /** 検索キーワードにマッチした部分をハイライトして返す */
@@ -41,12 +44,15 @@ const difficultyColors: Record<string, string> = {
   上級: "text-red-700 bg-red-50",
 };
 
-export default function PromptCard({ prompt, searchQuery }: PromptCardProps) {
-  const reviewCount = prompt.reviews.length;
-  const avgRating =
-    reviewCount > 0
-      ? prompt.reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
-      : 0;
+export default function PromptCard({ prompt, searchQuery, dbReviewCount = 0, dbRatingTotal, dbUsageCount = 0 }: PromptCardProps) {
+  const reviewCount = prompt.reviews.length + dbReviewCount;
+
+  // JSON + DB の評価を合算して平均を計算
+  const jsonRatingSum = prompt.reviews.reduce((sum, r) => sum + r.rating, 0);
+  const totalRatingSum = jsonRatingSum + (dbRatingTotal?.sum ?? 0);
+  const avgRating = reviewCount > 0 ? totalRatingSum / reviewCount : 0;
+
+  const totalUsage = prompt.usageCount + dbUsageCount;
 
   return (
     <Link href={`/prompts/${prompt.id}`} className="block group">
@@ -129,7 +135,7 @@ export default function PromptCard({ prompt, searchQuery }: PromptCardProps) {
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span>{prompt.usageCount.toLocaleString()}回使用</span>
+            <span>{totalUsage.toLocaleString()}回使用</span>
           </div>
         </div>
       </article>

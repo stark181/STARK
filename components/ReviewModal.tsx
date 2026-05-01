@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AiTool } from "@/types";
 
 interface ReviewModalProps {
+  promptId: string;
   promptTitle: string;
   onClose: () => void;
   onSubmit: (data: ReviewFormData) => void;
@@ -33,7 +34,7 @@ const industries = [
 
 const aiTools: AiTool[] = ["ChatGPT", "Claude", "Gemini", "共通"];
 
-export default function ReviewModal({ promptTitle, onClose, onSubmit }: ReviewModalProps) {
+export default function ReviewModal({ promptId, promptTitle, onClose, onSubmit }: ReviewModalProps) {
   const [form, setForm] = useState<ReviewFormData>({
     authorRole: "",
     authorIndustry: "",
@@ -43,10 +44,32 @@ export default function ReviewModal({ promptTitle, onClose, onSubmit }: ReviewMo
     rating: 5,
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.authorRole || !form.authorIndustry || !form.outcome) return;
+    setSubmitting(true);
+    setSubmitError("");
+    try {
+      await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          promptId,
+          rating: form.rating,
+          role: form.authorRole,
+          industry: form.authorIndustry,
+          comment: form.customization || "",
+          result: form.outcome,
+        }),
+      });
+    } catch {
+      // API失敗してもUIは成功扱いにする（楽観的更新）
+    } finally {
+      setSubmitting(false);
+    }
     onSubmit(form);
     setSubmitted(true);
   };
@@ -217,9 +240,10 @@ export default function ReviewModal({ promptTitle, onClose, onSubmit }: ReviewMo
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-lg transition-colors"
+                disabled={submitting}
+                className="px-6 py-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-60 text-white text-sm font-bold rounded-lg transition-colors"
               >
-                投稿する
+                {submitting ? "送信中…" : "投稿する"}
               </button>
             </div>
           </form>

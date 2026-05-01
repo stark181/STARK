@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import FilterBar, { SortOption } from "@/components/FilterBar";
@@ -8,7 +8,7 @@ import PromptCard from "@/components/PromptCard";
 import { Category, Difficulty, AiTool, Prompt } from "@/types";
 import promptsData from "@/data/prompts.json";
 
-const prompts = promptsData as Prompt[];
+const staticPrompts = promptsData as Prompt[];
 
 const CATEGORY_META: {
   name: Category;
@@ -62,6 +62,64 @@ export default function HomePage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | "すべて">("すべて");
   const [selectedAiTool, setSelectedAiTool] = useState<AiTool | "すべて">("すべて");
   const [sortBy, setSortBy] = useState<SortOption>("reviews");
+  // DBから取得したプロンプト
+  const [dbPrompts, setDbPrompts] = useState<Prompt[]>([]);
+  // 全プロンプト（静的JSON + DB）
+  const prompts = useMemo(() => [...staticPrompts, ...dbPrompts], [dbPrompts]);
+
+  // Supabaseから取得したレビュー件数（prompt_id → 追加件数）
+  const [dbReviewCounts, setDbReviewCounts] = useState<Record<string, number>>({});
+  // Supabaseから取得した評価合計（prompt_id → { sum, count }）
+  const [dbRatingTotals, setDbRatingTotals] = useState<Record<string, { sum: number; count: number }>>({});
+  // Supabaseから取得したコピー数（prompt_id → 使用回数）
+  const [dbUsageCounts, setDbUsageCounts] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    // DBプロンプトを取得
+    fetch("/api/prompts/db")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.prompts) {
+          const mapped: Prompt[] = data.prompts.map((p: {
+            id: string; title: string; category: string; difficulty: string;
+            ai_tools: string[]; description: string; body: string;
+            badges: string[]; tips: string[]; usage_count: number; created_at: string;
+          }) => ({
+            id: p.id,
+            title: p.title,
+            category: p.category as Prompt["category"],
+            difficulty: p.difficulty as Prompt["difficulty"],
+            aiTools: p.ai_tools as Prompt["aiTools"],
+            badges: (p.badges ?? []) as Prompt["badges"],
+            description: p.description,
+            body: p.body,
+            variables: [],
+            tips: p.tips ?? [],
+            usageCount: p.usage_count ?? 0,
+            reviews: [],
+            forks: [],
+            createdAt: p.created_at.split("T")[0],
+          }));
+          setDbPrompts(mapped);
+        }
+      })
+      .catch(() => {});
+
+    fetch("/api/reviews/counts")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.counts) setDbReviewCounts(data.counts);
+        if (data.ratingTotals) setDbRatingTotals(data.ratingTotals);
+      })
+      .catch(() => {});
+
+    fetch("/api/prompts/usage")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.usage) setDbUsageCounts(data.usage);
+      })
+      .catch(() => {});
+  }, []);
 
   const isDefaultView =
     selectedCategory === "すべて" &&
@@ -87,16 +145,24 @@ export default function HomePage() {
     });
 
     if (sortBy === "reviews") {
-      result = [...result].sort((a, b) => b.reviews.length - a.reviews.length);
+      result = [...result].sort(
+        (a, b) =>
+          (b.reviews.length + (dbReviewCounts[b.id] ?? 0)) -
+          (a.reviews.length + (dbReviewCounts[a.id] ?? 0))
+      );
     } else if (sortBy === "usage") {
-      result = [...result].sort((a, b) => b.usageCount - a.usageCount);
+      result = [...result].sort(
+        (a, b) =>
+          (b.usageCount + (dbUsageCounts[b.id] ?? 0)) -
+          (a.usageCount + (dbUsageCounts[a.id] ?? 0))
+      );
     } else {
       result = [...result].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     }
     return result;
-  }, [searchQuery, selectedCategory, selectedDifficulty, selectedAiTool, sortBy]);
+  }, [searchQuery, selectedCategory, selectedDifficulty, selectedAiTool, sortBy, dbReviewCounts, dbUsageCounts]);
 
   return (
     <div className="min-h-screen bg-[#f8f7f4]">
@@ -136,8 +202,8 @@ export default function HomePage() {
               <div className="grid grid-cols-3 gap-6 shrink-0">
                 {[
                   { label: "プロンプト数", value: `${prompts.length}件` },
-                  { label: "成功事例総数", value: `${prompts.reduce((s, p) => s + p.reviews.length, 0)}件` },
-                  { label: "総使用回数", value: `${(prompts.reduce((s, p) => s + p.usageCount, 0) / 1000).toFixed(1)}K` },
+                  { label: "成功事例総数", value: `${prompts.reduce((s, p) => s + p.reviews.length, 0) + Object.values(dbReviewCounts).reduce((s, n) => s + n, 0)}件` },
+                  { label: "総使用回数", value: `${((prompts.reduce((s, p) => s + p.usageCount, 0) + Object.values(dbUsageCounts).reduce((s, n) => s + n, 0)) / 1000).toFixed(1)}K` },
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-amber-400">{stat.value}</div>
@@ -152,7 +218,11 @@ export default function HomePage() {
               {CATEGORY_META.map((cat) => {
                 const catPrompts = prompts
                   .filter((p) => p.category === cat.name)
-                  .sort((a, b) => b.reviews.length - a.reviews.length)
+                  .sort(
+                    (a, b) =>
+                      (b.reviews.length + (dbReviewCounts[b.id] ?? 0)) -
+                      (a.reviews.length + (dbReviewCounts[a.id] ?? 0))
+                  )
                   .slice(0, 3);
 
                 return (
@@ -181,7 +251,13 @@ export default function HomePage() {
                     {/* プロンプトカード（横並び） */}
                     <div className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {catPrompts.map((p) => (
-                        <PromptCard key={p.id} prompt={p} />
+                        <PromptCard
+                          key={p.id}
+                          prompt={p}
+                          dbReviewCount={dbReviewCounts[p.id] ?? 0}
+                          dbRatingTotal={dbRatingTotals[p.id]}
+                          dbUsageCount={dbUsageCounts[p.id] ?? 0}
+                        />
                       ))}
                     </div>
                   </section>
@@ -247,7 +323,14 @@ export default function HomePage() {
                 className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
               >
                 {filtered.map((p) => (
-                  <PromptCard key={p.id} prompt={p} searchQuery={searchQuery} />
+                  <PromptCard
+                    key={p.id}
+                    prompt={p}
+                    searchQuery={searchQuery}
+                    dbReviewCount={dbReviewCounts[p.id] ?? 0}
+                    dbRatingTotal={dbRatingTotals[p.id]}
+                    dbUsageCount={dbUsageCounts[p.id] ?? 0}
+                  />
                 ))}
               </div>
             )}

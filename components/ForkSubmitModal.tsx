@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AiTool } from "@/types";
 
 interface ForkSubmitModalProps {
+  originalPromptId: string;
   originalTitle: string;
   originalBody: string;
   onClose: () => void;
@@ -24,7 +25,7 @@ const roles = [
   "プロジェクトマネージャー", "エンジニア", "その他",
 ];
 
-export default function ForkSubmitModal({ originalTitle, originalBody, onClose, onSubmit }: ForkSubmitModalProps) {
+export default function ForkSubmitModal({ originalPromptId, originalTitle, originalBody, onClose, onSubmit }: ForkSubmitModalProps) {
   const [form, setForm] = useState<ForkFormData>({
     title: `${originalTitle}（改良版）`,
     body: originalBody,
@@ -32,10 +33,29 @@ export default function ForkSubmitModal({ originalTitle, originalBody, onClose, 
     authorRole: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.title || !form.body || !form.diffSummary || !form.authorRole) return;
+    setSubmitting(true);
+    try {
+      await fetch("/api/forks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          originalPromptId,
+          title: form.title,
+          diffSummary: form.diffSummary,
+          promptBody: form.body,
+          authorRole: form.authorRole,
+        }),
+      });
+    } catch {
+      // API失敗してもUIは成功扱いにする
+    } finally {
+      setSubmitting(false);
+    }
     onSubmit(form);
     setSubmitted(true);
   };
@@ -147,9 +167,10 @@ export default function ForkSubmitModal({ originalTitle, originalBody, onClose, 
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold rounded-lg transition-colors"
+                disabled={submitting}
+                className="px-6 py-2 bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white text-sm font-bold rounded-lg transition-colors"
               >
-                派生版を投稿する
+                {submitting ? "送信中…" : "派生版を投稿する"}
               </button>
             </div>
           </form>
