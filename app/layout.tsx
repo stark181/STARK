@@ -10,7 +10,7 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "PromptBase - AIを使いこなす実践知が集まる場所",
+  title: "AIプロンプト図鑑 - AIを使いこなす実践知が集まる場所",
   description: "ビジネスパーソンがAIをうまく使えるようになるための実践プロンプトと成功事例が集まるプラットフォーム",
 };
 

@@ -15,24 +15,24 @@ export async function generateMetadata({
 
   if (prompt) {
     return {
-      title: `${prompt.title} | PromptBase`,
+      title: `${prompt.title} | AIプロンプト図鑑`,
       description: prompt.description,
       openGraph: {
-        title: `${prompt.title} | PromptBase`,
+        title: `${prompt.title} | AIプロンプト図鑑`,
         description: prompt.description,
         type: "article",
-        siteName: "PromptBase",
+        siteName: "AIプロンプト図鑑",
       },
       twitter: {
         card: "summary",
-        title: `${prompt.title} | PromptBase`,
+        title: `${prompt.title} | AIプロンプト図鑑`,
         description: prompt.description,
       },
     };
   }
 
   // DBプロンプト（UUID）はクライアント側でタイトルが決まるためデフォルト値を返す
-  return { title: "プロンプト詳細 | PromptBase" };
+  return { title: "プロンプト詳細 | AIプロンプト図鑑" };
 }
 
 export default async function PromptDetailPage({

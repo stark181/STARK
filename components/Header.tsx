@@ -31,7 +31,7 @@ export default function Header({ onSearch }: HeaderProps) {
                 </svg>
               </div>
               <div>
-                <span className="font-bold text-lg tracking-tight">PromptBase</span>
+                <span className="font-bold text-lg tracking-tight">AIプロンプト図鑑</span>
                 <span className="hidden sm:inline text-slate-400 text-xs ml-2">AIを使いこなす実践知が集まる場所</span>
               </div>
             </div>

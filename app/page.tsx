@@ -340,7 +340,7 @@ export default function HomePage() {
 
       {/* フッター */}
       <footer className="border-t border-slate-200 mt-16 py-8 text-center text-slate-400 text-sm">
-        <p>© 2025 PromptBase. AIを使いこなす実践知が集まる場所。</p>
+        <p>© 2025 AIプロンプト図鑑. AIを使いこなす実践知が集まる場所。</p>
       </footer>
     </div>
   );
