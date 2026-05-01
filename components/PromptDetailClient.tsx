@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ReviewCard from "@/components/ReviewCard";
@@ -68,10 +68,97 @@ export default function PromptDetailClient({ id }: { id: string }) {
   const [showForkModal, setShowForkModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [localReviews, setLocalReviews] = useState<Review[]>([]);
+  const [dbReviews, setDbReviews] = useState<Review[]>([]);
   const [localForks, setLocalForks] = useState<Fork[]>([]);
+  const [dbForks, setDbForks] = useState<Fork[]>([]);
+  // DBから取得したプロンプト（JSONにない場合）
+  const [dbPrompt, setDbPrompt] = useState<Prompt | null>(null);
+  const [promptLoading, setPromptLoading] = useState(false);
   const [varValues, setVarValues] = useState<Record<string, string>>({});
 
-  const prompt = allPrompts.find((p) => p.id === id);
+  // JSONにないIDの場合DBから取得
+  const staticPrompt = allPrompts.find((p) => p.id === id);
+  useEffect(() => {
+    if (!staticPrompt) {
+      setPromptLoading(true);
+      fetch(`/api/prompts/db/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.prompt) {
+            const p = data.prompt;
+            setDbPrompt({
+              id: p.id,
+              title: p.title,
+              category: p.category,
+              difficulty: p.difficulty,
+              aiTools: p.ai_tools ?? [],
+              badges: p.badges ?? [],
+              description: p.description,
+              body: p.body,
+              variables: [],
+              tips: p.tips ?? [],
+              usageCount: p.usage_count ?? 0,
+              reviews: [],
+              forks: [],
+              createdAt: p.created_at.split("T")[0],
+            });
+          }
+        })
+        .catch(() => {})
+        .finally(() => setPromptLoading(false));
+    }
+  }, [id, staticPrompt]);
+
+  // Supabaseからレビューとフォークを取得
+  useEffect(() => {
+    fetch(`/api/reviews/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.reviews) {
+          const reviews: Review[] = data.reviews.map((r: {
+            id: string; prompt_id: string; role: string; industry: string;
+            comment: string; result: string; rating: number; created_at: string;
+          }) => ({
+            id: r.id,
+            promptId: r.prompt_id,
+            authorRole: r.role,
+            authorIndustry: r.industry,
+            customization: r.comment,
+            outcome: r.result,
+            aiTool: "ChatGPT" as const,
+            rating: r.rating,
+            helpfulCount: 0,
+            createdAt: r.created_at.split("T")[0],
+          }));
+          setDbReviews(reviews);
+        }
+      })
+      .catch(() => {});
+
+    fetch(`/api/forks/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.forks) {
+          const forks: Fork[] = data.forks.map((f: {
+            id: string; original_prompt_id: string; title: string;
+            body: string; diff_summary: string; author_role: string; created_at: string;
+          }) => ({
+            id: f.id,
+            parentId: f.original_prompt_id,
+            title: f.title,
+            body: f.body,
+            diffSummary: f.diff_summary,
+            authorRole: f.author_role,
+            usageCount: 0,
+            createdAt: f.created_at.split("T")[0],
+          }));
+          setDbForks(forks);
+        }
+      })
+      .catch(() => {});
+  }, [id]);
+
+  const prompt = staticPrompt ?? dbPrompt;
 
   const filledPrompt = useMemo(() => {
     if (!prompt) return "";
@@ -87,6 +174,20 @@ export default function PromptDetailClient({ id }: { id: string }) {
     [varValues]
   );
 
+  if (promptLoading) {
+    return (
+      <div className="min-h-screen bg-[#f8f7f4] flex items-center justify-center">
+        <div className="flex items-center gap-2 text-slate-400">
+          <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+          </svg>
+          読み込み中...
+        </div>
+      </div>
+    );
+  }
+
   if (!prompt) {
     return (
       <div className="min-h-screen bg-[#f8f7f4] flex items-center justify-center">
@@ -98,17 +199,23 @@ export default function PromptDetailClient({ id }: { id: string }) {
     );
   }
 
-  const allReviews = [...prompt.reviews, ...localReviews];
+  const allReviews = [...prompt.reviews, ...dbReviews, ...localReviews];
   const avgRating =
     allReviews.length > 0
       ? allReviews.reduce((s, r) => s + r.rating, 0) / allReviews.length
       : 0;
-  const allForks = [...localForks, ...prompt.forks];
+  const allForks = [...prompt.forks, ...dbForks, ...localForks];
 
   const handleCopy = () => {
     navigator.clipboard.writeText(filledPrompt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    // コピー数をSupabaseに記録
+    fetch("/api/prompts/copy", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ promptId: prompt.id }),
+    }).catch(() => {});
   };
 
   const handleReviewSubmit = (data: ReviewFormData) => {
@@ -125,6 +232,33 @@ export default function PromptDetailClient({ id }: { id: string }) {
       createdAt: new Date().toISOString().split("T")[0],
     };
     setLocalReviews((prev) => [newReview, ...prev]);
+    // 少し待ってからDBを再取得
+    setTimeout(() => {
+      fetch(`/api/reviews/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.reviews) {
+            const reviews: Review[] = data.reviews.map((r: {
+              id: string; prompt_id: string; role: string; industry: string;
+              comment: string; result: string; rating: number; created_at: string;
+            }) => ({
+              id: r.id,
+              promptId: r.prompt_id,
+              authorRole: r.role,
+              authorIndustry: r.industry,
+              customization: r.comment,
+              outcome: r.result,
+              aiTool: "ChatGPT" as const,
+              rating: r.rating,
+              helpfulCount: 0,
+              createdAt: r.created_at.split("T")[0],
+            }));
+            setDbReviews(reviews);
+            setLocalReviews([]);
+          }
+        })
+        .catch(() => {});
+    }, 1000);
   };
 
   const handleForkSubmit = (data: ForkFormData) => {
@@ -139,6 +273,31 @@ export default function PromptDetailClient({ id }: { id: string }) {
       createdAt: new Date().toISOString().split("T")[0],
     };
     setLocalForks((prev) => [newFork, ...prev]);
+    // 少し待ってからDBを再取得
+    setTimeout(() => {
+      fetch(`/api/forks/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.forks) {
+            const forks: Fork[] = data.forks.map((f: {
+              id: string; original_prompt_id: string; title: string;
+              body: string; diff_summary: string; author_role: string; created_at: string;
+            }) => ({
+              id: f.id,
+              parentId: f.original_prompt_id,
+              title: f.title,
+              body: f.body,
+              diffSummary: f.diff_summary,
+              authorRole: f.author_role,
+              usageCount: 0,
+              createdAt: f.created_at.split("T")[0],
+            }));
+            setDbForks(forks);
+            setLocalForks([]);
+          }
+        })
+        .catch(() => {});
+    }, 1000);
   };
 
   return (
@@ -146,12 +305,8 @@ export default function PromptDetailClient({ id }: { id: string }) {
       <header className="bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="w-7 h-7 bg-amber-500 rounded-md flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-            </div>
-            <span className="font-bold text-base">PromptBase</span>
+            <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-8 h-8" />
+            <span className="font-bold text-base">AIプロンプト図鑑</span>
           </Link>
           <span className="text-slate-500">/</span>
           <span className="text-slate-300 text-sm truncate max-w-xs">{prompt.title}</span>
@@ -368,10 +523,10 @@ export default function PromptDetailClient({ id }: { id: string }) {
       </main>
 
       {showModal && (
-        <ReviewModal promptTitle={prompt.title} onClose={() => setShowModal(false)} onSubmit={handleReviewSubmit} />
+        <ReviewModal promptId={prompt.id} promptTitle={prompt.title} onClose={() => setShowModal(false)} onSubmit={handleReviewSubmit} />
       )}
       {showForkModal && (
-        <ForkSubmitModal originalTitle={prompt.title} originalBody={prompt.body} onClose={() => setShowForkModal(false)} onSubmit={handleForkSubmit} />
+        <ForkSubmitModal originalPromptId={prompt.id} originalTitle={prompt.title} originalBody={prompt.body} onClose={() => setShowForkModal(false)} onSubmit={handleForkSubmit} />
       )}
     </div>
   );

@@ -59,8 +59,32 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
     return true;
   };
 
-  const handleSubmit = () => {
-    setSubmitted(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    setSubmitError("");
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: form.title,
+          category: form.category,
+          difficulty: form.difficulty,
+          aiTools: form.aiTools,
+          description: form.description,
+          promptBody: form.body,
+        }),
+      });
+      if (!res.ok) throw new Error("送信失敗");
+      setSubmitted(true);
+    } catch {
+      setSubmitError("送信に失敗しました。もう一度お試しください。");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -280,6 +304,9 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
                       投稿後、編集部の審査を経て公開されます。スパムや著作権侵害コンテンツは掲載できません。
                     </p>
                   </div>
+                  {submitError && (
+                    <p className="text-xs text-red-600 text-center">{submitError}</p>
+                  )}
                 </div>
               )}
             </div>
@@ -312,9 +339,10 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
                   <button
                     type="button"
                     onClick={handleSubmit}
-                    className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-lg transition-colors"
+                    disabled={submitting}
+                    className="px-6 py-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-60 text-white text-sm font-bold rounded-lg transition-colors"
                   >
-                    投稿する
+                    {submitting ? "送信中…" : "投稿する"}
                   </button>
                 )}
               </div>
