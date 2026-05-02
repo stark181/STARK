@@ -125,6 +125,7 @@ export default function HomePage() {
     selectedCategory === "すべて" &&
     selectedDifficulty === "すべて" &&
     selectedAiTool === "すべて" &&
+    sortBy === "reviews" &&
     !searchQuery;
 
   const filtered = useMemo(() => {
