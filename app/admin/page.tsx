@@ -144,7 +144,7 @@ export default function AdminPage() {
       <header className="bg-slate-900 text-white">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-8 h-8" />
+            <img src="/logo-icon.png" alt="AIプロンプト図鑑" className="w-8 h-8" />
             <span className="font-bold">AIプロンプト図鑑</span>
             <span className="text-slate-500">/</span>
             <span className="text-slate-300 text-sm">管理パネル</span>

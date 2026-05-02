@@ -58,15 +58,14 @@ export default function FilterBar({
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-14 z-40">
         <div className="max-w-6xl mx-auto px-6 py-2.5">
 
-          {/* PC */}
-          <div className="hidden sm:flex flex-wrap gap-2 items-center">
-            {/* カテゴリ */}
-            <div className="flex flex-wrap gap-1.5">
+          {/* PC：カテゴリ＋絞り込みボタン＋ソート */}
+          <div className="hidden sm:flex gap-2 items-center">
+            <div className="flex gap-1.5 flex-1">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => onCategoryChange(cat)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all whitespace-nowrap ${
                     selectedCategory === cat
                       ? "bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-sm"
                       : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800"
@@ -76,42 +75,27 @@ export default function FilterBar({
                 </button>
               ))}
             </div>
-            <div className="h-4 w-px bg-gray-200" />
-            {/* 難易度 */}
-            <div className="flex gap-1.5">
-              {difficulties.map((d) => (
-                <button
-                  key={d}
-                  onClick={() => onDifficultyChange(d)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                    selectedDifficulty === d
-                      ? "bg-teal-500 text-white shadow-sm"
-                      : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800"
-                  }`}
-                >
-                  {d}
-                </button>
-              ))}
-            </div>
-            <div className="h-4 w-px bg-gray-200" />
-            {/* AI */}
-            <div className="flex gap-1.5">
-              {aiTools.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => onAiToolChange(t)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                    selectedAiTool === t
-                      ? "bg-violet-500 text-white shadow-sm"
-                      : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800"
-                  }`}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-            <div className="flex-1" />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 shrink-0">
+              {/* 絞り込みボタン（難易度・AIツール） */}
+              <button
+                onClick={() => setDrawerOpen(true)}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                  activeCount > 1 || (activeCount === 1 && selectedCategory === "すべて")
+                    ? "bg-gradient-to-r from-blue-500 to-violet-500 text-white border-transparent"
+                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-800"
+                }`}
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                絞り込み
+                {(selectedDifficulty !== "すべて" || selectedAiTool !== "すべて") && (
+                  <span className="w-4 h-4 bg-white/30 rounded-full text-[10px] flex items-center justify-center font-bold">
+                    {[selectedDifficulty !== "すべて", selectedAiTool !== "すべて"].filter(Boolean).length}
+                  </span>
+                )}
+              </button>
+              <div className="h-4 w-px bg-gray-200" />
               <span className="text-xs text-gray-400 font-medium">{totalCount}件</span>
               <select
                 value={sortBy}

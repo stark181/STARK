@@ -63,7 +63,7 @@ export default function PromptCard({ prompt, searchQuery, dbReviewCount = 0, dbR
 
   return (
     <Link href={`/prompts/${prompt.id}`} className="block group">
-      <article className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-md hover:border-gray-200 transition-all duration-200 h-full flex flex-col">
+      <article className="bg-white rounded-2xl shadow border border-gray-100 p-5 hover:shadow-lg hover:border-violet-200 transition-all duration-200 h-full flex flex-col">
         {/* カラーバー */}
         <div className={`h-1 rounded-full bg-gradient-to-r ${bar} mb-4`} />
 

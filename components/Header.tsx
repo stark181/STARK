@@ -19,20 +19,9 @@ export default function Header({ onSearch }: HeaderProps) {
           <div className="flex items-center justify-between h-14">
             {/* ロゴ */}
             <div className="flex items-center gap-2.5 shrink-0">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-400 flex items-center justify-center shadow-sm">
-                <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-4 h-4 brightness-0 invert" />
-              </div>
+              <img src="/logo-icon.png" alt="AIプロンプト図鑑" className="w-8 h-8 rounded-lg" />
               <span className="font-bold text-gray-900 text-base tracking-tight">AIプロンプト図鑑</span>
             </div>
-
-            {/* ナビ */}
-            <nav className="hidden md:flex items-center gap-1">
-              {["カテゴリ", "人気順", "新着"].map((item) => (
-                <a key={item} href="#" className="px-4 py-2 rounded-full text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all font-medium">
-                  {item}
-                </a>
-              ))}
-            </nav>
 
             {/* ボタン群 */}
             <div className="flex items-center gap-2 shrink-0">

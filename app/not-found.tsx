@@ -7,7 +7,7 @@ export default function NotFound() {
       <header className="bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-8 h-8" />
+            <img src="/logo-icon.png" alt="AIプロンプト図鑑" className="w-8 h-8" />
             <span className="font-bold text-white text-base">AIプロンプト図鑑</span>
           </Link>
         </div>
