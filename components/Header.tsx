@@ -19,9 +19,7 @@ export default function Header({ onSearch }: HeaderProps) {
           <div className="flex items-center justify-between h-14">
             {/* ロゴ */}
             <div className="flex items-center gap-2.5 shrink-0">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-400 flex items-center justify-center shadow-sm">
-                <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-4 h-4 brightness-0 invert" />
-              </div>
+              <img src="/logo-icon.png" alt="AIプロンプト図鑑" className="w-8 h-8 rounded-lg" />
               <span className="font-bold text-gray-900 text-base tracking-tight">AIプロンプト図鑑</span>
             </div>
 

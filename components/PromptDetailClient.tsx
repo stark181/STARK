@@ -305,7 +305,7 @@ export default function PromptDetailClient({ id }: { id: string }) {
       <header className="bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src="/logo-icon.svg" alt="AIプロンプト図鑑" className="w-8 h-8" />
+            <img src="/logo-icon.png" alt="AIプロンプト図鑑" className="w-8 h-8" />
             <span className="font-bold text-base">AIプロンプト図鑑</span>
           </Link>
           <span className="text-slate-500">/</span>

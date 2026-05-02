@@ -72,7 +72,7 @@ export default function DesignPreviewPage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-400 flex items-center justify-center shadow-sm">
-                <img src="/logo-icon.svg" alt="logo" className="w-5 h-5 brightness-0 invert" />
+                <img src="/logo-icon.png" alt="logo" className="w-7 h-7 rounded-md" />
               </div>
               <span className="font-bold text-gray-900 text-base tracking-tight">AIプロンプト図鑑</span>
             </div>
