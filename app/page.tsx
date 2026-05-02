@@ -168,24 +168,24 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      {/* ヒーロー（白背景・ヘッダー直下） */}
-      <section className="bg-white border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-6 py-14">
+      {/* ヒーロー */}
+      <section className="bg-gradient-to-br from-blue-50 via-violet-50 to-white border-b border-violet-100">
+        <div className="max-w-6xl mx-auto px-6 py-12">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
             {/* 左：テキスト＋検索 */}
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 bg-violet-50 border border-violet-100 text-violet-600 text-xs font-semibold px-3 py-1 rounded-full mb-5">
+              <div className="inline-flex items-center gap-2 bg-white border border-violet-200 text-violet-600 text-xs font-semibold px-3 py-1 rounded-full mb-5 shadow-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse"></span>
                 実践知が集まるAIプロンプトプラットフォーム
               </div>
               <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight mb-4">
                 「実際に試して<br />
-                <span className="bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-pink-600 bg-clip-text text-transparent">
                   うまくいった
                 </span>」<br />
                 プロンプトが集まる場所
               </h1>
-              <p className="text-gray-500 text-base leading-relaxed mb-6">
+              <p className="text-gray-600 text-base leading-relaxed mb-6">
                 職種・業種・成果が明記された成功事例レビュー付き。<br className="hidden sm:block" />
                 試した人の体験が積み重なる、実践型プロンプト図鑑。
               </p>
@@ -199,10 +199,10 @@ export default function HomePage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="職種・用途・キーワードで検索..."
-                    className="w-full pl-10 pr-4 py-3 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent bg-white shadow-sm"
+                    className="w-full pl-10 pr-4 py-3 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent bg-white shadow-sm"
                   />
                 </div>
-                <button className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold hover:opacity-90 transition-opacity shrink-0 shadow-sm">
+                <button className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition-opacity shrink-0 shadow-sm">
                   検索
                 </button>
               </div>
@@ -210,13 +210,13 @@ export default function HomePage() {
             {/* 右：統計 */}
             <div className="flex sm:flex-col gap-6 sm:gap-4 shrink-0">
               {[
-                { label: "プロンプト数", value: `${prompts.length}件`, color: "text-blue-500" },
-                { label: "成功事例総数", value: `${prompts.reduce((s, p) => s + p.reviews.length, 0) + Object.values(dbReviewCounts).reduce((s, n) => s + n, 0)}件`, color: "text-violet-500" },
-                { label: "総使用回数", value: `${((prompts.reduce((s, p) => s + p.usageCount, 0) + Object.values(dbUsageCounts).reduce((s, n) => s + n, 0)) / 1000).toFixed(1)}K`, color: "text-pink-500" },
+                { label: "プロンプト数", value: `${prompts.length}件`, color: "text-blue-600" },
+                { label: "成功事例総数", value: `${prompts.reduce((s, p) => s + p.reviews.length, 0) + Object.values(dbReviewCounts).reduce((s, n) => s + n, 0)}件`, color: "text-violet-600" },
+                { label: "総使用回数", value: `${((prompts.reduce((s, p) => s + p.usageCount, 0) + Object.values(dbUsageCounts).reduce((s, n) => s + n, 0)) / 1000).toFixed(1)}K`, color: "text-pink-600" },
               ].map((stat) => (
                 <div key={stat.label} className="text-center sm:text-right">
                   <div className={`text-3xl font-extrabold ${stat.color}`}>{stat.value}</div>
-                  <div className="text-xs text-gray-400 font-medium mt-0.5">{stat.label}</div>
+                  <div className="text-xs text-gray-500 font-medium mt-0.5">{stat.label}</div>
                 </div>
               ))}
             </div>
