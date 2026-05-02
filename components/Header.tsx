@@ -25,7 +25,10 @@ export default function Header({ onSearch }: HeaderProps) {
 
             {/* ボタン群 */}
             <div className="flex items-center gap-2 shrink-0">
-              <button className="hidden sm:block text-sm text-gray-500 hover:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-100 transition-all font-medium">
+              <button
+                onClick={() => alert("ログイン機能は準備中です")}
+                className="hidden sm:block text-sm text-gray-500 hover:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-100 transition-all font-medium"
+              >
                 ログイン
               </button>
               <button
