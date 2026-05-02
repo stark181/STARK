@@ -59,6 +59,24 @@ const statusLabel: Record<string, { label: string; color: string }> = {
 };
 
 export default function AdminPage() {
+  const [authed, setAuthed] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+
+  const handleLogin = async () => {
+    const res = await fetch("/api/admin/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: passwordInput }),
+    });
+    if (res.ok) {
+      setAuthed(true);
+    } else {
+      setPasswordError(true);
+      setPasswordInput("");
+    }
+  };
+
   const [tab, setTab] = useState<Tab>("submissions");
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -137,6 +155,31 @@ export default function AdminPage() {
   };
 
   const pendingCount = submissions.filter((s) => s.status === "pending").length;
+
+  if (!authed) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+          <h1 className="text-lg font-bold text-gray-900 mb-6 text-center">管理画面</h1>
+          <input
+            type="password"
+            value={passwordInput}
+            onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+            placeholder="パスワードを入力"
+            className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
+          />
+          {passwordError && <p className="text-red-500 text-xs mb-3">パスワードが違います</p>}
+          <button
+            onClick={handleLogin}
+            className="w-full bg-gradient-to-r from-blue-500 to-violet-500 text-white py-2.5 rounded-lg text-sm font-semibold hover:opacity-90"
+          >
+            ログイン
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
