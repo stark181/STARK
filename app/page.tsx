@@ -2,11 +2,14 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import FilterBar, { SortOption } from "@/components/FilterBar";
 import PromptCard from "@/components/PromptCard";
 import { Category, Difficulty, AiTool, Prompt } from "@/types";
 import promptsData from "@/data/prompts.json";
+
+const PromptSubmitModal = dynamic(() => import("@/components/PromptSubmitModal"), { ssr: false });
 
 const staticPrompts = promptsData as Prompt[];
 
@@ -57,6 +60,7 @@ const iconBgMap: Record<string, string> = {
 };
 
 export default function HomePage() {
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<Category | "すべて">("すべて");
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | "すべて">("すべて");
@@ -296,7 +300,10 @@ export default function HomePage() {
                 <div className="text-3xl mb-3">✦</div>
                 <h2 className="text-xl font-extrabold mb-2">あなたの成功事例をシェアしよう</h2>
                 <p className="text-white/70 text-sm mb-6">うまくいったプロンプトを投稿して、同じ悩みを持つ人を助けよう。</p>
-                <button className="bg-white text-violet-600 font-bold px-8 py-2.5 rounded-full hover:bg-white/90 transition-colors shadow-lg text-sm">
+                <button
+                  onClick={() => setShowSubmitModal(true)}
+                  className="bg-white text-violet-600 font-bold px-8 py-2.5 rounded-full hover:bg-white/90 transition-colors shadow-lg text-sm"
+                >
                   プロンプトを投稿する
                 </button>
               </div>
@@ -365,6 +372,10 @@ export default function HomePage() {
           </>
         )}
       </main>
+
+      {showSubmitModal && (
+        <PromptSubmitModal onClose={() => setShowSubmitModal(false)} />
+      )}
 
       {/* フッター */}
       <footer className="border-t border-gray-100 mt-16 py-8 text-center text-gray-300 text-sm bg-white">
