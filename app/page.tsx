@@ -297,7 +297,9 @@ export default function HomePage() {
               <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full translate-x-16 -translate-y-16" />
               <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full -translate-x-10 translate-y-10" />
               <div className="relative">
-                <div className="text-4xl mb-3">🐝</div>
+                <div className="flex justify-center mb-4">
+                  <img src="/image-1777836068884.png" alt="AIプロンプト図鑑" className="w-16 h-16 object-contain drop-shadow-lg" />
+                </div>
                 <h2 className="text-xl font-extrabold mb-2">あなたの成功事例をシェアしよう</h2>
                 <p className="text-white/70 text-sm mb-6">うまくいったプロンプトを投稿して、同じ悩みを持つ人を助けよう。</p>
                 <button
