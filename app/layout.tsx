@@ -38,6 +38,11 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-touch-icon.png",
+    shortcut: "/icon.png",
+  },
   robots: {
     index: true,
     follow: true,
