@@ -11,7 +11,7 @@ const notoSansJP = Noto_Sans_JP({
 
 const SITE_URL = "https://starkinc.work";
 const SITE_NAME = "AIプロンプト図鑑";
-const OGP_IMAGE = `${SITE_URL}/opengraph-image`;
+const OGP_IMAGE = `${SITE_URL}/ogp.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
