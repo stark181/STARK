@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Category, Difficulty, AiTool } from "@/types";
 
 interface PromptSubmitModalProps {
   onClose: () => void;
+}
+
+interface VariableDef {
+  name: string;
+  description: string;
+  example: string;
 }
 
 interface PromptFormData {
@@ -29,11 +35,54 @@ const categories: Category[] = [
 const difficulties: Difficulty[] = ["初級", "中級", "上級"];
 const aiToolOptions: AiTool[] = ["ChatGPT", "Claude", "Gemini", "共通"];
 
-const STEPS = ["基本情報", "プロンプト本文", "確認"] as const;
+// {{変数名}} を本文から自動検出（重複除去）
+function detectVariables(body: string): string[] {
+  const matches = body.match(/\{\{([^}]+)\}\}/g) ?? [];
+  return [...new Set(matches.map((m) => m.replace(/^\{\{|\}\}$/g, "").trim()))];
+}
+
+// プレビュー：例文を本文に反映して表示
+function BodyPreview({
+  body,
+  variables,
+}: {
+  body: string;
+  variables: VariableDef[];
+}) {
+  const parts = body.split(/(\{\{[^}]+\}\})/g);
+  return (
+    <pre className="bg-slate-900 rounded-xl p-4 text-xs leading-relaxed overflow-x-auto whitespace-pre-wrap font-mono max-h-60">
+      {parts.map((part, i) => {
+        const match = part.match(/^\{\{([^}]+)\}\}$/);
+        if (match) {
+          const varName = match[1].trim();
+          const varDef = variables.find((v) => v.name === varName);
+          const example = varDef?.example?.trim();
+          if (example) {
+            return (
+              <mark key={i} className="bg-amber-400/30 text-amber-300 rounded px-0.5 not-italic">
+                {example}
+              </mark>
+            );
+          }
+          return (
+            <mark key={i} className="bg-amber-500/20 text-amber-400 rounded px-0.5 not-italic">
+              {part}
+            </mark>
+          );
+        }
+        return <span key={i} className="text-slate-200">{part}</span>;
+      })}
+    </pre>
+  );
+}
 
 export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
   const [form, setForm] = useState<PromptFormData>({
     title: "",
     category: "営業・提案",
@@ -44,6 +93,31 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
     tips: "",
   });
 
+  // 変数定義リスト（本文から自動検出 → ユーザーが説明・例を入力）
+  const [variables, setVariables] = useState<VariableDef[]>([]);
+
+  // 本文が変わるたびに変数を自動検出・同期
+  useEffect(() => {
+    const detected = detectVariables(form.body);
+    setVariables((prev) =>
+      detected.map((name) => {
+        const existing = prev.find((v) => v.name === name);
+        return existing ?? { name, description: "", example: "" };
+      })
+    );
+  }, [form.body]);
+
+  const hasVariables = variables.length > 0;
+
+  // ステップ定義（変数がある場合のみ「変数設定」ステップを挿入）
+  const STEPS = useMemo(
+    () =>
+      hasVariables
+        ? (["基本情報", "プロンプト本文", "変数設定", "確認"] as const)
+        : (["基本情報", "プロンプト本文", "確認"] as const),
+    [hasVariables]
+  );
+
   const toggleAiTool = (tool: AiTool) => {
     setForm((prev) => ({
       ...prev,
@@ -53,14 +127,17 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
     }));
   };
 
+  const updateVariable = (name: string, field: "description" | "example", value: string) => {
+    setVariables((prev) =>
+      prev.map((v) => (v.name === name ? { ...v, [field]: value } : v))
+    );
+  };
+
   const canGoNext = () => {
     if (step === 0) return form.title.trim() && form.description.trim() && form.aiTools.length > 0;
     if (step === 1) return form.body.trim().length >= 20;
     return true;
   };
-
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -76,6 +153,8 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
           aiTools: form.aiTools,
           description: form.description,
           promptBody: form.body,
+          tips: form.tips,
+          variables: variables.length > 0 ? variables : undefined,
         }),
       });
       if (!res.ok) throw new Error("送信失敗");
@@ -86,6 +165,10 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
       setSubmitting(false);
     }
   };
+
+  // 変数ステップのインデックス（動的）
+  const varStepIndex = hasVariables ? 2 : -1;
+  const confirmStepIndex = hasVariables ? 3 : 2;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
@@ -105,9 +188,9 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
             </button>
           </div>
           {/* ステッパー */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 flex-wrap">
             {STEPS.map((label, i) => (
-              <div key={label} className="flex items-center gap-2">
+              <div key={label} className="flex items-center gap-1.5">
                 <div className={`flex items-center gap-1.5 ${i <= step ? "text-amber-400" : "text-slate-500"}`}>
                   <div className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border ${
                     i < step
@@ -127,7 +210,7 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
                   <span className="text-xs font-medium hidden sm:block">{label}</span>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div className={`h-px w-6 sm:w-10 ${i < step ? "bg-amber-500" : "bg-slate-700"}`} />
+                  <div className={`h-px w-4 sm:w-8 ${i < step ? "bg-amber-500" : "bg-slate-700"}`} />
                 )}
               </div>
             ))}
@@ -155,7 +238,8 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
         ) : (
           <>
             <div className="flex-1 overflow-y-auto">
-              {/* STEP 0: 基本情報 */}
+
+              {/* ===== STEP 0: 基本情報 ===== */}
               {step === 0 && (
                 <div className="px-6 py-5 space-y-5">
                   <div>
@@ -235,7 +319,7 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
                 </div>
               )}
 
-              {/* STEP 1: プロンプト本文 */}
+              {/* ===== STEP 1: プロンプト本文 ===== */}
               {step === 1 && (
                 <div className="px-6 py-5 space-y-5">
                   <div>
@@ -243,17 +327,41 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
                       プロンプト本文 <span className="text-red-500">*</span>
                     </label>
                     <p className="text-xs text-slate-400 mb-2">
-                      変数は <code className="bg-slate-100 px-1 rounded text-amber-700">{`{{変数名}}`}</code> の形式で記述してください
+                      変数は{" "}
+                      <code className="bg-slate-100 px-1 rounded text-amber-700 font-mono">{`{{変数名}}`}</code>{" "}
+                      の形式で記述すると、次のステップで説明・例文を設定できます。
                     </p>
                     <textarea
                       value={form.body}
                       onChange={(e) => setForm({ ...form, body: e.target.value })}
                       rows={10}
-                      placeholder={"例：あなたは一流のビジネスコンサルタントです。\n以下の情報をもとに、{{会社名}}の意思決定者向けエグゼクティブサマリーを作成してください。\n\n## 前提情報\n- 製品・サービス: {{製品名}}\n..."}
+                      placeholder={"例：あなたは一流のビジネスコンサルタントです。\n以下の情報をもとに、{{会社名}}の意思決定者向けサマリーを作成してください。\n\n## 前提情報\n- 製品・サービス: {{製品名}}\n- 相手企業の課題: {{課題}}"}
                       className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none font-mono"
                     />
                     <p className="text-xs text-slate-400 mt-1 text-right">{form.body.length}文字</p>
                   </div>
+
+                  {/* 変数検出バッジ */}
+                  {variables.length > 0 && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 flex items-start gap-2">
+                      <svg className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div>
+                        <p className="text-xs font-semibold text-amber-700 mb-1">
+                          {variables.length}個の変数を検出しました
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {variables.map((v) => (
+                            <code key={v.name} className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full border border-amber-200 font-mono">
+                              {`{{${v.name}}}`}
+                            </code>
+                          ))}
+                        </div>
+                        <p className="text-xs text-amber-600 mt-1.5">次のステップで各変数の説明と入力例を設定できます。</p>
+                      </div>
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">
@@ -271,8 +379,75 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
                 </div>
               )}
 
-              {/* STEP 2: 確認 */}
-              {step === 2 && (
+              {/* ===== STEP 2（変数あり）: 変数設定 ===== */}
+              {step === varStepIndex && varStepIndex !== -1 && (
+                <div className="px-6 py-5 space-y-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-5 h-5 bg-amber-500 rounded flex items-center justify-center shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </div>
+                    <p className="text-sm font-bold text-slate-800">変数の説明と入力例を設定</p>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    各変数の「説明」と「入力例」を設定してください。入力例は確認画面のプレビューに反映されます。
+                  </p>
+
+                  <div className="space-y-3">
+                    {variables.map((v) => (
+                      <div key={v.name} className="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-3">
+                        {/* 変数名ラベル */}
+                        <div className="flex items-center gap-2">
+                          <code className="text-sm font-mono text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 font-bold">
+                            {`{{${v.name}}}`}
+                          </code>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs font-semibold text-slate-600 mb-1">
+                              説明 <span className="font-normal text-slate-400">（この変数に何を入れるか）</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={v.description}
+                              onChange={(e) => updateVariable(v.name, "description", e.target.value)}
+                              placeholder={`例：提案先の企業名`}
+                              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold text-slate-600 mb-1">
+                              入力例 <span className="font-normal text-slate-400">（サンプル値・プレビューに反映）</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={v.example}
+                              onChange={(e) => updateVariable(v.name, "example", e.target.value)}
+                              placeholder={`例：株式会社ABC`}
+                              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* ライブプレビュー */}
+                  {variables.some((v) => v.example) && (
+                    <div>
+                      <p className="text-xs font-semibold text-slate-500 mb-2 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse inline-block" />
+                        入力例を反映したプレビュー
+                      </p>
+                      <BodyPreview body={form.body} variables={variables} />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ===== 確認ステップ ===== */}
+              {step === confirmStepIndex && (
                 <div className="px-6 py-5 space-y-4">
                   <p className="text-sm text-slate-500">以下の内容で投稿します。確認してください。</p>
 
@@ -292,11 +467,35 @@ export default function PromptSubmitModal({ onClose }: PromptSubmitModalProps) {
                     <p className="text-sm text-slate-500">{form.description}</p>
                   </div>
 
+                  {/* 変数一覧 */}
+                  {variables.length > 0 && (
+                    <div>
+                      <p className="text-xs font-semibold text-slate-500 mb-2">変数設定（{variables.length}個）</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {variables.map((v) => (
+                          <div key={v.name} className="bg-amber-50 rounded-lg border border-amber-100 p-2.5">
+                            <code className="text-xs font-mono text-amber-700">{`{{${v.name}}}`}</code>
+                            {v.description && <p className="text-xs text-slate-500 mt-1">{v.description}</p>}
+                            {v.example && (
+                              <p className="text-xs text-slate-400 mt-0.5">
+                                入力例：<span className="text-amber-700 font-medium">{v.example}</span>
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 本文プレビュー（例文反映） */}
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 mb-2">プロンプト本文（先頭200文字）</p>
-                    <pre className="bg-slate-900 text-slate-300 rounded-lg p-3 text-xs font-mono leading-relaxed overflow-hidden whitespace-pre-wrap line-clamp-5">
-                      {form.body.slice(0, 200)}{form.body.length > 200 ? "…" : ""}
-                    </pre>
+                    <p className="text-xs font-semibold text-slate-500 mb-2">
+                      プロンプト本文プレビュー
+                      {variables.some((v) => v.example) && (
+                        <span className="ml-2 text-amber-600 font-normal">（入力例を反映中）</span>
+                      )}
+                    </p>
+                    <BodyPreview body={form.body} variables={variables} />
                   </div>
 
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
