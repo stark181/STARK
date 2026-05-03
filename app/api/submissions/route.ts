@@ -9,18 +9,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "必須項目が不足しています" }, { status: 400 });
   }
 
-  // tips を配列に変換（改行区切りの文字列 or 配列どちらも受け付ける）
-  const tipsArray: string[] = Array.isArray(tips)
-    ? tips
-    : typeof tips === "string" && tips.trim()
-    ? tips.split("\n").map((t: string) => t.trim()).filter(Boolean)
-    : [];
+  // 変数定義とヒントを body 末尾に付与（既存DBスキーマを変えずに保持）
+  let bodyWithMeta = promptBody;
 
-  // 変数データを body 末尾に JSON エンコードして付与（DB カラムなしでも保持）
-  const bodyWithVars =
-    variables && variables.length > 0
-      ? `${promptBody}\n\n---VARIABLES_JSON---\n${JSON.stringify(variables)}`
-      : promptBody;
+  if (variables && variables.length > 0) {
+    bodyWithMeta += `\n\n---VARIABLES_JSON---\n${JSON.stringify(variables)}`;
+  }
+
+  if (tips && tips.trim()) {
+    bodyWithMeta += `\n\n---TIPS---\n${tips}`;
+  }
 
   const { data, error } = await supabaseAdmin
     .from("submissions")
@@ -30,8 +28,7 @@ export async function POST(req: NextRequest) {
       difficulty,
       ai_tools: aiTools,
       description,
-      body: bodyWithVars,
-      tips: tipsArray,
+      body: bodyWithMeta,
       author_role: authorRole ?? null,
     })
     .select()
