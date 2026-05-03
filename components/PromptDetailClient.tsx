@@ -12,6 +12,37 @@ import promptsData from "@/data/prompts.json";
 
 const allPrompts = promptsData as Prompt[];
 
+// body内に埋め込まれた変数定義・ヒントを解析して分離する
+function parseBodyWithMeta(rawBody: string): {
+  body: string;
+  variables: { name: string; description: string; example: string }[];
+  tips: string[];
+} {
+  let body = rawBody;
+  let variables: { name: string; description: string; example: string }[] = [];
+  let tips: string[] = [];
+
+  // ---VARIABLES_JSON--- セクションを抽出
+  const varMatch = body.match(/\n\n---VARIABLES_JSON---\n([\s\S]*?)(?=\n\n---TIPS---|$)/);
+  if (varMatch) {
+    try {
+      variables = JSON.parse(varMatch[1].trim());
+    } catch {
+      variables = [];
+    }
+    body = body.replace(/\n\n---VARIABLES_JSON---\n[\s\S]*?(?=\n\n---TIPS---|$)/, "");
+  }
+
+  // ---TIPS--- セクションを抽出
+  const tipsMatch = body.match(/\n\n---TIPS---\n([\s\S]*)$/);
+  if (tipsMatch) {
+    tips = tipsMatch[1].trim().split("\n").map((t) => t.trim()).filter(Boolean);
+    body = body.replace(/\n\n---TIPS---\n[\s\S]*$/, "");
+  }
+
+  return { body: body.trim(), variables, tips };
+}
+
 const categoryColors: Record<string, string> = {
   "営業・提案": "bg-blue-50 text-blue-700 border-blue-200",
   "人事・採用": "bg-green-50 text-green-700 border-green-200",
@@ -86,6 +117,8 @@ export default function PromptDetailClient({ id }: { id: string }) {
         .then((data) => {
           if (data.prompt) {
             const p = data.prompt;
+            // body内に埋め込まれた変数・ヒントを解析
+            const parsed = parseBodyWithMeta(p.body ?? "");
             setDbPrompt({
               id: p.id,
               title: p.title,
@@ -94,9 +127,9 @@ export default function PromptDetailClient({ id }: { id: string }) {
               aiTools: p.ai_tools ?? [],
               badges: p.badges ?? [],
               description: p.description,
-              body: p.body,
-              variables: [],
-              tips: p.tips ?? [],
+              body: parsed.body,
+              variables: parsed.variables,
+              tips: parsed.tips.length > 0 ? parsed.tips : (p.tips ?? []),
               usageCount: p.usage_count ?? 0,
               reviews: [],
               forks: [],
