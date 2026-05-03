@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 const notoSansJP = Noto_Sans_JP({
@@ -130,6 +131,7 @@ export default function RootLayout({
         />
       </head>
       <body className={notoSansJP.className}>{children}</body>
+      <GoogleAnalytics gaId="G-45FF8CTEWY" />
     </html>
   );
 }
