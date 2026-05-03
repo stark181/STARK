@@ -297,7 +297,7 @@ export default function HomePage() {
               <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full translate-x-16 -translate-y-16" />
               <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full -translate-x-10 translate-y-10" />
               <div className="relative">
-                <div className="text-3xl mb-3">✦</div>
+                <div className="text-4xl mb-3">🐝</div>
                 <h2 className="text-xl font-extrabold mb-2">あなたの成功事例をシェアしよう</h2>
                 <p className="text-white/70 text-sm mb-6">うまくいったプロンプトを投稿して、同じ悩みを持つ人を助けよう。</p>
                 <button
