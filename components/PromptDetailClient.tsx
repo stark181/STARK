@@ -553,6 +553,74 @@ export default function PromptDetailClient({ id }: { id: string }) {
             </>
           )}
         </section>
+
+        {/* 関連プロンプト */}
+        {(() => {
+          const related = allPrompts
+            .filter((p) => p.category === prompt.category && p.id !== prompt.id)
+            .slice(0, 4);
+          if (related.length === 0) return null;
+          return (
+            <section className="mt-10 pt-8 border-t border-slate-200">
+              <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h10" />
+                </svg>
+                同じカテゴリのプロンプト
+                <span className="text-sm font-medium text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                  {prompt.category}
+                </span>
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {related.map((p) => (
+                  <Link
+                    key={p.id}
+                    href={`/prompts/${p.id}`}
+                    className="group bg-white rounded-xl border border-slate-200 p-4 hover:border-amber-300 hover:shadow-md transition-all duration-200"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
+                          <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${difficultyColors[p.difficulty]}`}>
+                            {p.difficulty}
+                          </span>
+                          {p.badges.includes("編集部ピック") && (
+                            <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-amber-500 text-white flex items-center gap-0.5">
+                              <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                              ピック
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="text-sm font-semibold text-slate-900 group-hover:text-amber-700 transition-colors leading-snug mb-1 line-clamp-2">
+                          {p.title}
+                        </h3>
+                        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                          {p.description}
+                        </p>
+                      </div>
+                      <svg className="w-4 h-4 text-slate-300 group-hover:text-amber-400 shrink-0 mt-1 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-4 text-center">
+                <Link
+                  href={`/?category=${encodeURIComponent(prompt.category)}`}
+                  className="text-sm text-amber-600 hover:text-amber-700 font-medium inline-flex items-center gap-1 hover:underline transition-colors"
+                >
+                  「{prompt.category}」をすべて見る
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </section>
+          );
+        })()}
       </main>
 
       {showModal && (

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
@@ -59,10 +60,12 @@ const iconBgMap: Record<string, string> = {
   violet: "bg-violet-100 text-violet-600",
 };
 
-export default function HomePage() {
+function HomePageInner() {
+  const searchParams = useSearchParams();
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<Category | "すべて">("すべて");
+  const initialCategory = (searchParams.get("category") as Category) ?? "すべて";
+  const [selectedCategory, setSelectedCategory] = useState<Category | "すべて">(initialCategory);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | "すべて">("すべて");
   const [selectedAiTool, setSelectedAiTool] = useState<AiTool | "すべて">("すべて");
   const [sortBy, setSortBy] = useState<SortOption>("reviews");
@@ -384,5 +387,13 @@ export default function HomePage() {
         <p>© 2025 AIプロンプト図鑑</p>
       </footer>
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={null}>
+      <HomePageInner />
+    </Suspense>
   );
 }
