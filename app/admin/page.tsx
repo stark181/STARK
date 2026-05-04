@@ -51,12 +51,52 @@ type DbPrompt = {
 };
 
 type Tab = "submissions" | "reviews" | "forks" | "prompts";
+type StatusFilter = "all" | "pending" | "approved" | "rejected";
 
 const statusLabel: Record<string, { label: string; color: string }> = {
   pending:  { label: "審査中", color: "bg-amber-100 text-amber-700 border-amber-200" },
   approved: { label: "承認済", color: "bg-green-100 text-green-700 border-green-200" },
   rejected: { label: "却下",   color: "bg-red-100 text-red-700 border-red-200" },
 };
+
+// body内の変数・ヒントを解析して分離
+function parseBody(rawBody: string) {
+  let body = rawBody;
+  let variables: { name: string; description: string; example: string }[] = [];
+  let tips: string[] = [];
+
+  const varMatch = body.match(/\n\n---VARIABLES_JSON---\n([\s\S]*?)(?=\n\n---TIPS---|$)/);
+  if (varMatch) {
+    try { variables = JSON.parse(varMatch[1].trim()); } catch { variables = []; }
+    body = body.replace(/\n\n---VARIABLES_JSON---\n[\s\S]*?(?=\n\n---TIPS---|$)/, "");
+  }
+  const tipsMatch = body.match(/\n\n---TIPS---\n([\s\S]*)$/);
+  if (tipsMatch) {
+    tips = tipsMatch[1].trim().split("\n").map((t) => t.trim()).filter(Boolean);
+    body = body.replace(/\n\n---TIPS---\n[\s\S]*$/, "");
+  }
+  return { body: body.trim(), variables, tips };
+}
+
+// トースト通知
+function Toast({ message, type }: { message: string; type: "success" | "error" }) {
+  return (
+    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-medium text-white transition-all ${
+      type === "success" ? "bg-green-600" : "bg-red-600"
+    }`}>
+      {type === "success" ? (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+        </svg>
+      ) : (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      )}
+      {message}
+    </div>
+  );
+}
 
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -69,15 +109,12 @@ export default function AdminPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password: passwordInput }),
     });
-    if (res.ok) {
-      setAuthed(true);
-    } else {
-      setPasswordError(true);
-      setPasswordInput("");
-    }
+    if (res.ok) { setAuthed(true); }
+    else { setPasswordError(true); setPasswordInput(""); }
   };
 
   const [tab, setTab] = useState<Tab>("submissions");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("pending");
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [forks, setForks] = useState<Fork[]>([]);
@@ -85,6 +122,13 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [savingBadge, setSavingBadge] = useState<string | null>(null);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
@@ -101,19 +145,31 @@ export default function AdminPage() {
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    fetchAll();
-  }, [fetchAll]);
+  useEffect(() => { fetchAll(); }, [fetchAll]);
 
   const updateStatus = async (id: string, status: string) => {
-    await fetch(`/api/admin/submissions/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    setSubmissions((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, status } : s))
-    );
+    setUpdatingId(id);
+    try {
+      const res = await fetch(`/api/admin/submissions/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) throw new Error();
+      setSubmissions((prev) => prev.map((s) => (s.id === id ? { ...s, status } : s)));
+      const labels: Record<string, string> = { approved: "承認しました ✓", rejected: "却下しました", pending: "審査中に戻しました" };
+      showToast(labels[status] ?? "更新しました", "success");
+      if (status === "approved") {
+        // DB反映のため少し待ってからプロンプト一覧を更新
+        setTimeout(() => {
+          fetch("/api/prompts/db").then(r => r.json()).then(d => { if (d.prompts) setDbPrompts(d.prompts); });
+        }, 1000);
+      }
+    } catch {
+      showToast("更新に失敗しました", "error");
+    } finally {
+      setUpdatingId(null);
+    }
   };
 
   const toggleBadge = async (promptId: string, badge: string, currentBadges: string[]) => {
@@ -121,45 +177,42 @@ export default function AdminPage() {
     const newBadges = currentBadges.includes(badge)
       ? currentBadges.filter((b) => b !== badge)
       : [...currentBadges, badge];
-
     await fetch(`/api/prompts/db/${promptId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ badges: newBadges }),
     });
-
-    setDbPrompts((prev) =>
-      prev.map((p) => (p.id === promptId ? { ...p, badges: newBadges } : p))
-    );
+    setDbPrompts((prev) => prev.map((p) => (p.id === promptId ? { ...p, badges: newBadges } : p)));
     setSavingBadge(null);
   };
 
   const deleteReview = async (id: string) => {
     if (!confirm("このレビューを削除しますか？")) return;
-    await fetch("/api/admin/reviews", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
+    await fetch("/api/admin/reviews", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
     setReviews((prev) => prev.filter((r) => r.id !== id));
+    showToast("レビューを削除しました", "success");
   };
 
   const deleteFork = async (id: string) => {
     if (!confirm("このフォークを削除しますか？")) return;
-    await fetch("/api/admin/forks", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
+    await fetch("/api/admin/forks", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
     setForks((prev) => prev.filter((f) => f.id !== id));
+    showToast("フォークを削除しました", "success");
   };
 
   const pendingCount = submissions.filter((s) => s.status === "pending").length;
+
+  const filteredSubmissions = submissions.filter((s) =>
+    statusFilter === "all" ? true : s.status === statusFilter
+  );
 
   if (!authed) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+          <div className="flex justify-center mb-4">
+            <img src="/image-1777836068884.png" alt="logo" className="w-12 h-12 object-contain" />
+          </div>
           <h1 className="text-lg font-bold text-gray-900 mb-6 text-center">管理画面</h1>
           <input
             type="password"
@@ -170,10 +223,7 @@ export default function AdminPage() {
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
           />
           {passwordError && <p className="text-red-500 text-xs mb-3">パスワードが違います</p>}
-          <button
-            onClick={handleLogin}
-            className="w-full bg-gradient-to-r from-blue-500 to-violet-500 text-white py-2.5 rounded-lg text-sm font-semibold hover:opacity-90"
-          >
+          <button onClick={handleLogin} className="w-full bg-gradient-to-r from-blue-500 to-violet-500 text-white py-2.5 rounded-lg text-sm font-semibold hover:opacity-90">
             ログイン
           </button>
         </div>
@@ -183,18 +233,17 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* ヘッダー */}
+      {toast && <Toast message={toast.message} type={toast.type} />}
+
       <header className="bg-slate-900 text-white">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo-icon.png" alt="AIプロンプト図鑑" className="w-8 h-8" />
+            <img src="/image-1777836068884.png" alt="AIプロンプト図鑑" className="w-7 h-7 object-contain" />
             <span className="font-bold">AIプロンプト図鑑</span>
             <span className="text-slate-500">/</span>
             <span className="text-slate-300 text-sm">管理パネル</span>
           </div>
-          <Link href="/" className="text-sm text-slate-400 hover:text-white transition-colors">
-            ← サイトに戻る
-          </Link>
+          <Link href="/" className="text-sm text-slate-400 hover:text-white transition-colors">← サイトに戻る</Link>
         </div>
       </header>
 
@@ -202,15 +251,15 @@ export default function AdminPage() {
         {/* サマリーカード */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
-            { label: "投稿プロンプト", value: submissions.length, sub: `${pendingCount}件 審査中`, color: "text-amber-600" },
-            { label: "公開中プロンプト", value: dbPrompts.length, sub: "DB登録済み", color: "text-violet-600" },
-            { label: "成功事例レビュー", value: reviews.length, sub: "全件", color: "text-blue-600" },
-            { label: "派生版（フォーク）", value: forks.length, sub: "全件", color: "text-teal-600" },
+            { label: "投稿プロンプト", value: submissions.length, sub: pendingCount > 0 ? `⚠️ ${pendingCount}件 審査待ち` : "審査待ちなし", color: "text-amber-600", alert: pendingCount > 0 },
+            { label: "公開中プロンプト", value: dbPrompts.length, sub: "DB登録済み", color: "text-violet-600", alert: false },
+            { label: "成功事例レビュー", value: reviews.length, sub: "全件", color: "text-blue-600", alert: false },
+            { label: "派生版（フォーク）", value: forks.length, sub: "全件", color: "text-teal-600", alert: false },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white rounded-xl border border-slate-200 p-5">
+            <div key={stat.label} className={`bg-white rounded-xl border p-5 ${stat.alert ? "border-amber-300 bg-amber-50" : "border-slate-200"}`}>
               <div className={`text-3xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
               <div className="text-sm font-medium text-slate-700">{stat.label}</div>
-              <div className="text-xs text-slate-400 mt-0.5">{stat.sub}</div>
+              <div className={`text-xs mt-0.5 ${stat.alert ? "text-amber-600 font-medium" : "text-slate-400"}`}>{stat.sub}</div>
             </div>
           ))}
         </div>
@@ -220,20 +269,10 @@ export default function AdminPage() {
           {(["submissions", "reviews", "forks", "prompts"] as Tab[]).map((t) => {
             const labels = { submissions: "投稿プロンプト", reviews: "レビュー", forks: "派生版", prompts: "プロンプト管理" };
             return (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  tab === t
-                    ? "bg-slate-900 text-white shadow-sm"
-                    : "text-slate-500 hover:text-slate-900"
-                }`}
-              >
+              <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === t ? "bg-slate-900 text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>
                 {labels[t]}
                 {t === "submissions" && pendingCount > 0 && (
-                  <span className="ml-2 bg-amber-500 text-white text-xs rounded-full px-1.5 py-0.5">
-                    {pendingCount}
-                  </span>
+                  <span className="ml-2 bg-amber-500 text-white text-xs rounded-full px-1.5 py-0.5">{pendingCount}</span>
                 )}
               </button>
             );
@@ -252,92 +291,158 @@ export default function AdminPage() {
           <>
             {/* ===== 投稿プロンプト ===== */}
             {tab === "submissions" && (
-              <div className="space-y-3">
-                {submissions.length === 0 && (
-                  <div className="text-center py-16 text-slate-400">投稿はまだありません</div>
-                )}
-                {submissions.map((s) => {
-                  const isExpanded = expandedId === s.id;
-                  const st = statusLabel[s.status] ?? statusLabel.pending;
-                  return (
-                    <div key={s.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                      <div className="p-5">
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap mb-1">
-                              <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${st.color}`}>
-                                {st.label}
-                              </span>
-                              <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{s.category}</span>
-                              <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{s.difficulty}</span>
-                              {s.ai_tools?.map((t) => (
-                                <span key={t} className="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{t}</span>
-                              ))}
-                            </div>
-                            <h3 className="font-bold text-slate-900 text-base">{s.title}</h3>
-                            <p className="text-sm text-slate-500 mt-0.5">{s.description}</p>
-                            <div className="flex items-center gap-3 mt-2 text-xs text-slate-400">
-                              {s.author_role && <span>投稿者：{s.author_role}</span>}
-                              <span>{new Date(s.created_at).toLocaleDateString("ja-JP")}</span>
-                            </div>
-                          </div>
-                          {/* アクションボタン */}
-                          <div className="flex flex-col gap-2 shrink-0">
-                            {s.status !== "approved" && (
-                              <button
-                                onClick={() => updateStatus(s.id, "approved")}
-                                className="text-xs px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
-                              >
-                                承認
-                              </button>
-                            )}
-                            {s.status !== "rejected" && (
-                              <button
-                                onClick={() => updateStatus(s.id, "rejected")}
-                                className="text-xs px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
-                              >
-                                却下
-                              </button>
-                            )}
-                            {s.status !== "pending" && (
-                              <button
-                                onClick={() => updateStatus(s.id, "pending")}
-                                className="text-xs px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-medium transition-colors"
-                              >
-                                保留に戻す
-                              </button>
-                            )}
-                          </div>
-                        </div>
+              <div>
+                {/* ステータスフィルター */}
+                <div className="flex gap-2 mb-4">
+                  {([
+                    { key: "pending", label: `審査中 (${submissions.filter(s => s.status === "pending").length})` },
+                    { key: "all",     label: `すべて (${submissions.length})` },
+                    { key: "approved",label: `承認済 (${submissions.filter(s => s.status === "approved").length})` },
+                    { key: "rejected",label: `却下 (${submissions.filter(s => s.status === "rejected").length})` },
+                  ] as { key: StatusFilter; label: string }[]).map(({ key, label }) => (
+                    <button
+                      key={key}
+                      onClick={() => setStatusFilter(key)}
+                      className={`text-xs px-3 py-1.5 rounded-lg font-medium border transition-all ${
+                        statusFilter === key
+                          ? "bg-slate-900 text-white border-slate-900"
+                          : "bg-white text-slate-500 border-slate-200 hover:border-slate-400"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
 
-                        <button
-                          onClick={() => setExpandedId(isExpanded ? null : s.id)}
-                          className="mt-3 text-xs text-slate-400 hover:text-slate-700 transition-colors flex items-center gap-1"
-                        >
-                          <svg className={`w-3 h-3 transition-transform ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          {isExpanded ? "プロンプト本文を閉じる" : "プロンプト本文を見る"}
-                        </button>
-                      </div>
-
-                      {isExpanded && (
-                        <div className="border-t border-slate-100 px-5 py-4 bg-slate-50">
-                          <pre className="text-xs font-mono text-slate-700 whitespace-pre-wrap leading-relaxed">{s.body}</pre>
-                        </div>
-                      )}
+                <div className="space-y-3">
+                  {filteredSubmissions.length === 0 && (
+                    <div className="text-center py-16 text-slate-400">
+                      {statusFilter === "pending" ? "審査待ちの投稿はありません 🎉" : "該当する投稿はありません"}
                     </div>
-                  );
-                })}
+                  )}
+                  {filteredSubmissions.map((s) => {
+                    const isExpanded = expandedId === s.id;
+                    const st = statusLabel[s.status] ?? statusLabel.pending;
+                    const isUpdating = updatingId === s.id;
+                    const parsed = parseBody(s.body);
+
+                    return (
+                      <div key={s.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                        <div className="p-5">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap mb-1">
+                                <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${st.color}`}>{st.label}</span>
+                                <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{s.category}</span>
+                                <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{s.difficulty}</span>
+                                {s.ai_tools?.map((t) => (
+                                  <span key={t} className="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{t}</span>
+                                ))}
+                                {parsed.variables.length > 0 && (
+                                  <span className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
+                                    変数 {parsed.variables.length}個
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className="font-bold text-slate-900 text-base">{s.title}</h3>
+                              <p className="text-sm text-slate-500 mt-0.5">{s.description}</p>
+                              <div className="flex items-center gap-3 mt-2 text-xs text-slate-400">
+                                {s.author_role && <span>投稿者：{s.author_role}</span>}
+                                <span>{new Date(s.created_at).toLocaleDateString("ja-JP")}</span>
+                              </div>
+                            </div>
+
+                            {/* アクションボタン */}
+                            <div className="flex flex-col gap-2 shrink-0">
+                              {s.status !== "approved" && (
+                                <button
+                                  onClick={() => updateStatus(s.id, "approved")}
+                                  disabled={isUpdating}
+                                  className="text-xs px-3 py-1.5 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-lg font-medium transition-colors flex items-center gap-1"
+                                >
+                                  {isUpdating ? <svg className="animate-spin w-3 h-3" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> : "✓"} 承認・公開
+                                </button>
+                              )}
+                              {s.status !== "rejected" && (
+                                <button
+                                  onClick={() => updateStatus(s.id, "rejected")}
+                                  disabled={isUpdating}
+                                  className="text-xs px-3 py-1.5 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white rounded-lg font-medium transition-colors"
+                                >
+                                  却下
+                                </button>
+                              )}
+                              {s.status !== "pending" && (
+                                <button
+                                  onClick={() => updateStatus(s.id, "pending")}
+                                  disabled={isUpdating}
+                                  className="text-xs px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-medium transition-colors"
+                                >
+                                  保留に戻す
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => setExpandedId(isExpanded ? null : s.id)}
+                            className="mt-3 text-xs text-slate-400 hover:text-slate-700 transition-colors flex items-center gap-1"
+                          >
+                            <svg className={`w-3 h-3 transition-transform ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                            {isExpanded ? "詳細を閉じる" : "詳細・本文を確認する"}
+                          </button>
+                        </div>
+
+                        {isExpanded && (
+                          <div className="border-t border-slate-100 bg-slate-50 p-5 space-y-4">
+                            {/* 変数一覧 */}
+                            {parsed.variables.length > 0 && (
+                              <div>
+                                <p className="text-xs font-semibold text-slate-500 mb-2">📌 変数定義（{parsed.variables.length}個）</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                  {parsed.variables.map((v) => (
+                                    <div key={v.name} className="bg-amber-50 border border-amber-100 rounded-lg p-2.5">
+                                      <code className="text-xs font-mono text-amber-700 font-bold">{`{{${v.name}}}`}</code>
+                                      {v.description && <p className="text-xs text-slate-500 mt-1">{v.description}</p>}
+                                      {v.example && <p className="text-xs text-slate-400 mt-0.5">例：<span className="text-amber-700">{v.example}</span></p>}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {/* ヒント */}
+                            {parsed.tips.length > 0 && (
+                              <div>
+                                <p className="text-xs font-semibold text-slate-500 mb-2">💡 ヒント</p>
+                                <ul className="space-y-1">
+                                  {parsed.tips.map((tip, i) => (
+                                    <li key={i} className="text-xs text-slate-600 flex gap-1.5">
+                                      <span className="text-slate-400 shrink-0">•</span>{tip}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {/* 本文 */}
+                            <div>
+                              <p className="text-xs font-semibold text-slate-500 mb-2">📝 プロンプト本文</p>
+                              <pre className="text-xs font-mono text-slate-700 whitespace-pre-wrap leading-relaxed bg-white border border-slate-200 rounded-lg p-3">{parsed.body}</pre>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 
             {/* ===== レビュー ===== */}
             {tab === "reviews" && (
               <div className="space-y-3">
-                {reviews.length === 0 && (
-                  <div className="text-center py-16 text-slate-400">レビューはまだありません</div>
-                )}
+                {reviews.length === 0 && <div className="text-center py-16 text-slate-400">レビューはまだありません</div>}
                 {reviews.map((r) => (
                   <div key={r.id} className="bg-white rounded-xl border border-slate-200 p-5">
                     <div className="flex items-start justify-between gap-4">
@@ -361,12 +466,7 @@ export default function AdminPage() {
                         <p className="text-sm text-slate-700 font-medium">成果：{r.result}</p>
                         {r.comment && <p className="text-sm text-slate-500 mt-1">補足：{r.comment}</p>}
                       </div>
-                      <button
-                        onClick={() => deleteReview(r.id)}
-                        className="text-xs px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-medium transition-colors border border-red-200 shrink-0"
-                      >
-                        削除
-                      </button>
+                      <button onClick={() => deleteReview(r.id)} className="text-xs px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-medium transition-colors border border-red-200 shrink-0">削除</button>
                     </div>
                   </div>
                 ))}
@@ -376,9 +476,7 @@ export default function AdminPage() {
             {/* ===== フォーク ===== */}
             {tab === "forks" && (
               <div className="space-y-3">
-                {forks.length === 0 && (
-                  <div className="text-center py-16 text-slate-400">フォークはまだありません</div>
-                )}
+                {forks.length === 0 && <div className="text-center py-16 text-slate-400">フォークはまだありません</div>}
                 {forks.map((f) => {
                   const isExpanded = expandedId === f.id;
                   return (
@@ -394,17 +492,9 @@ export default function AdminPage() {
                             <h3 className="font-bold text-slate-900">{f.title}</h3>
                             <p className="text-sm text-slate-500 mt-1">{f.diff_summary}</p>
                           </div>
-                          <button
-                            onClick={() => deleteFork(f.id)}
-                            className="text-xs px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-medium transition-colors border border-red-200 shrink-0"
-                          >
-                            削除
-                          </button>
+                          <button onClick={() => deleteFork(f.id)} className="text-xs px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-medium transition-colors border border-red-200 shrink-0">削除</button>
                         </div>
-                        <button
-                          onClick={() => setExpandedId(isExpanded ? null : f.id)}
-                          className="mt-3 text-xs text-slate-400 hover:text-slate-700 transition-colors flex items-center gap-1"
-                        >
+                        <button onClick={() => setExpandedId(isExpanded ? null : f.id)} className="mt-3 text-xs text-slate-400 hover:text-slate-700 transition-colors flex items-center gap-1">
                           <svg className={`w-3 h-3 transition-transform ${isExpanded ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
@@ -422,45 +512,29 @@ export default function AdminPage() {
               </div>
             )}
 
-            {/* ===== プロンプト管理（バッジ付与） ===== */}
+            {/* ===== プロンプト管理 ===== */}
             {tab === "prompts" && (
               <div className="space-y-3">
                 {dbPrompts.length === 0 && (
                   <div className="text-center py-16 text-slate-400">
                     <p>DB登録済みプロンプトはまだありません</p>
-                    <p className="text-xs mt-1">管理画面から投稿を承認するとここに表示されます</p>
+                    <p className="text-xs mt-1">投稿を承認するとここに表示されます</p>
                   </div>
                 )}
-
-                {/* バッジの説明 */}
                 {dbPrompts.length > 0 && (
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
-                    <p className="text-sm font-medium text-amber-800 mb-2">自動バッジのルール</p>
-                    <div className="flex flex-wrap gap-4 text-xs text-amber-700">
-                      <span className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-teal-500 inline-block"></span>
-                        実績バッジ：レビュー2件以上で自動付与
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-rose-500 inline-block"></span>
-                        人気バッジ：平均評価4.5以上で自動付与
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
-                        編集部ピック：手動のみ
-                      </span>
-                    </div>
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4 text-xs text-amber-700 flex flex-wrap gap-4">
+                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block"/>編集部ピック：手動のみ</span>
+                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-teal-500 inline-block"/>実績バッジ：レビュー2件以上で自動</span>
+                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500 inline-block"/>人気バッジ：平均評価4.5以上で自動</span>
                   </div>
                 )}
-
                 {dbPrompts.map((p) => {
                   const BADGE_OPTIONS = [
-                    { key: "編集部ピック", color: "bg-amber-500", label: "⭐ 編集部ピック", manual: true },
-                    { key: "実績バッジ", color: "bg-teal-600", label: "✓ 実績あり", manual: false },
-                    { key: "人気バッジ", color: "bg-rose-500", label: "🔥 人気急上昇", manual: false },
+                    { key: "編集部ピック", color: "bg-amber-500", label: "⭐ 編集部ピック" },
+                    { key: "実績バッジ",   color: "bg-teal-600",  label: "✓ 実績あり" },
+                    { key: "人気バッジ",   color: "bg-rose-500",  label: "🔥 人気急上昇" },
                   ];
                   const isSaving = savingBadge === p.id;
-
                   return (
                     <div key={p.id} className="bg-white rounded-xl border border-slate-200 p-5">
                       <div className="flex items-start justify-between gap-4">
@@ -468,63 +542,30 @@ export default function AdminPage() {
                           <div className="flex items-center gap-2 flex-wrap mb-1">
                             <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{p.category}</span>
                             <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{p.difficulty}</span>
-                            {p.ai_tools?.map((t) => (
-                              <span key={t} className="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{t}</span>
-                            ))}
                           </div>
                           <h3 className="font-bold text-slate-900">{p.title}</h3>
                           <p className="text-sm text-slate-500 mt-0.5">{p.description}</p>
-                          <div className="flex items-center gap-3 mt-1 text-xs text-slate-400">
-                            {p.author_role && <span>投稿者：{p.author_role}</span>}
-                            <span>{new Date(p.created_at).toLocaleDateString("ja-JP")}</span>
-                          </div>
+                          <p className="text-xs text-slate-400 mt-1">{new Date(p.created_at).toLocaleDateString("ja-JP")}</p>
                         </div>
-                        <a
-                          href={`/prompts/${p.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg font-medium transition-colors shrink-0"
-                        >
+                        <a href={`/prompts/${p.id}`} target="_blank" rel="noopener noreferrer" className="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg font-medium transition-colors shrink-0">
                           表示 →
                         </a>
                       </div>
-
-                      {/* バッジ付与エリア */}
-                      <div className="mt-4 pt-4 border-t border-slate-100">
-                        <p className="text-xs text-slate-500 mb-2 font-medium">バッジ管理</p>
-                        <div className="flex flex-wrap gap-2">
-                          {BADGE_OPTIONS.map(({ key, color, label, manual }) => {
-                            const hasBadge = p.badges?.includes(key);
-                            return (
-                              <button
-                                key={key}
-                                onClick={() => toggleBadge(p.id, key, p.badges ?? [])}
-                                disabled={isSaving}
-                                title={manual ? "手動付与のみ" : "自動付与対象（手動でも変更可）"}
-                                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-medium border transition-all ${
-                                  isSaving ? "opacity-50 cursor-not-allowed" : ""
-                                } ${
-                                  hasBadge
-                                    ? `${color} text-white border-transparent`
-                                    : "bg-white text-slate-500 border-slate-200 hover:border-slate-400"
-                                }`}
-                              >
-                                {isSaving ? (
-                                  <svg className="animate-spin w-3 h-3" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
-                                  </svg>
-                                ) : (
-                                  <span className={`w-1.5 h-1.5 rounded-full ${hasBadge ? "bg-white" : "bg-slate-300"}`}></span>
-                                )}
-                                {label}
-                                {!manual && (
-                                  <span className="text-[10px] opacity-60">自動</span>
-                                )}
-                              </button>
-                            );
-                          })}
-                        </div>
+                      <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap gap-2">
+                        {BADGE_OPTIONS.map(({ key, color, label }) => {
+                          const hasBadge = p.badges?.includes(key);
+                          return (
+                            <button
+                              key={key}
+                              onClick={() => toggleBadge(p.id, key, p.badges ?? [])}
+                              disabled={isSaving}
+                              className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-medium border transition-all ${isSaving ? "opacity-50 cursor-not-allowed" : ""} ${hasBadge ? `${color} text-white border-transparent` : "bg-white text-slate-500 border-slate-200 hover:border-slate-400"}`}
+                            >
+                              {isSaving ? <svg className="animate-spin w-3 h-3" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> : <span className={`w-1.5 h-1.5 rounded-full ${hasBadge ? "bg-white" : "bg-slate-300"}`}/>}
+                              {label}
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   );
