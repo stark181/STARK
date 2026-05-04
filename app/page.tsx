@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo, useEffect, useCallback, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
@@ -62,13 +62,46 @@ const iconBgMap: Record<string, string> = {
 
 function HomePageInner() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [showSubmitModal, setShowSubmitModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const initialCategory = (searchParams.get("category") as Category) ?? "すべて";
-  const [selectedCategory, setSelectedCategory] = useState<Category | "すべて">(initialCategory);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | "すべて">("すべて");
-  const [selectedAiTool, setSelectedAiTool] = useState<AiTool | "すべて">("すべて");
-  const [sortBy, setSortBy] = useState<SortOption>("reviews");
+
+  // URLパラメータからフィルター状態を派生（単一ソース）
+  const searchQuery = searchParams.get("q") ?? "";
+  const selectedCategory: Category | "すべて" = (searchParams.get("category") as Category | null) ?? "すべて";
+  const selectedDifficulty: Difficulty | "すべて" = (searchParams.get("difficulty") as Difficulty | null) ?? "すべて";
+  const selectedAiTool: AiTool | "すべて" = (searchParams.get("tool") as AiTool | null) ?? "すべて";
+  const sortBy: SortOption = (searchParams.get("sort") as SortOption | null) ?? "reviews";
+
+  // 検索inputのローカル状態（Enter/ボタンでURLに反映）
+  const [inputValue, setInputValue] = useState(searchQuery);
+
+  // URLの q が変わったらinputも同期
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
+
+  // URLを更新するヘルパー（変更のあるパラメータだけ更新）
+  const updateParams = useCallback(
+    (updates: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      Object.entries(updates).forEach(([key, value]) => {
+        if (!value || value === "すべて" || value === "reviews") {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+      const qs = params.toString();
+      router.push(qs ? `/?${qs}` : "/", { scroll: false });
+    },
+    [searchParams, router]
+  );
+
+  const setSearchQuery = (q: string) => updateParams({ q });
+  const setSelectedCategory = (v: Category | "すべて") => updateParams({ category: v });
+  const setSelectedDifficulty = (v: Difficulty | "すべて") => updateParams({ difficulty: v });
+  const setSelectedAiTool = (v: AiTool | "すべて") => updateParams({ tool: v });
+  const setSortBy = (v: SortOption) => updateParams({ sort: v });
   // DBから取得したプロンプト
   const [dbPrompts, setDbPrompts] = useState<Prompt[]>([]);
   // 全プロンプト（静的JSON + DB）
@@ -197,23 +230,41 @@ function HomePageInner() {
                 職種・業種・成果が明記された成功事例レビュー付き。<br className="hidden sm:block" />
                 試した人の体験が積み重なる、実践型プロンプト図鑑。
               </p>
-              <div className="flex gap-2 max-w-lg">
+              <form
+                className="flex gap-2 max-w-lg"
+                onSubmit={(e) => { e.preventDefault(); setSearchQuery(inputValue); }}
+              >
                 <div className="flex-1 relative">
                   <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                   <input
                     type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Escape") { setInputValue(""); setSearchQuery(""); } }}
                     placeholder="職種・用途・キーワードで検索..."
-                    className="w-full pl-10 pr-4 py-3 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent bg-white shadow-sm"
+                    className="w-full pl-10 pr-8 py-3 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent bg-white shadow-sm"
                   />
+                  {inputValue && (
+                    <button
+                      type="button"
+                      onClick={() => { setInputValue(""); setSearchQuery(""); }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
-                <button className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition-opacity shrink-0 shadow-sm">
+                <button
+                  type="submit"
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition-opacity shrink-0 shadow-sm"
+                >
                   検索
                 </button>
-              </div>
+              </form>
             </div>
             {/* 右：統計 */}
             <div className="flex sm:flex-col gap-6 sm:gap-4 shrink-0">
