@@ -1166,6 +1166,18 @@
         "rating": 5,
         "helpfulCount": 48,
         "createdAt": "2025-01-15"
+      },
+      {
+        "id": "r013b",
+        "promptId": "p013",
+        "authorRole": "人事企画",
+        "authorIndustry": "SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "採用要件が毎回マネージャーと人事でズレていたのが解消。このプロンプトで両者がすり合わせる共通言語ができた。採用ミスマッチが半減した。",
+        "customization": "「マネージャーが面接で見たいポイントを具体的な行動例で」と追記",
+        "rating": 5,
+        "helpfulCount": 36,
+        "createdAt": "2025-01-25"
       }
     ],
     "forks": [],
@@ -1393,7 +1405,32 @@
       "生成後、固有名詞だけ確認・修正すればすぐ送れる"
     ],
     "usageCount": 1200,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r016a",
+        "promptId": "p016",
+        "authorRole": "営業事務",
+        "authorIndustry": "商社",
+        "aiTool": "ChatGPT",
+        "outcome": "1通あたり20分かかっていたメール返信が3分に短縮。1日30通対応する自分には革命的でした。上司から「最近メールが丁寧になったね」と言われてびっくり。",
+        "customization": "最後に「ご不明点はお気軽に」の締め文を必ず入れてと追記",
+        "rating": 5,
+        "helpfulCount": 44,
+        "createdAt": "2025-01-08"
+      },
+      {
+        "id": "r016b",
+        "promptId": "p016",
+        "authorRole": "カスタマーサポート",
+        "authorIndustry": "EC・通販",
+        "aiTool": "Claude",
+        "outcome": "クレームメールへの返信が特に効果的。感情的な文章を冷静かつ丁寧な返信に変換してくれる。チーム全員に共有しました。",
+        "customization": "「お詫びの気持ちを前面に出しつつ、解決策を明示して」と追記",
+        "rating": 5,
+        "helpfulCount": 38,
+        "createdAt": "2025-01-12"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-05"
   },
@@ -1440,7 +1477,32 @@
       "Notionやスプレッドシートにそのまま貼れる形式で出力される"
     ],
     "usageCount": 980,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r017a",
+        "promptId": "p017",
+        "authorRole": "プロジェクトマネージャー",
+        "authorIndustry": "IT・SIer",
+        "aiTool": "Claude",
+        "outcome": "1時間の会議メモを入力したら、5分でアクション付きの議事録が完成。会議後の議事録送付が当日中にできるようになり、チームからの信頼度が上がった。",
+        "customization": "「担当者名と期限を必ずセットで」と追記したら精度が上がった",
+        "rating": 5,
+        "helpfulCount": 62,
+        "createdAt": "2025-01-15"
+      },
+      {
+        "id": "r017b",
+        "promptId": "p017",
+        "authorRole": "総務担当",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "音声入力で会議を録音→文字起こし→このプロンプトで整形のフローを確立。議事録作成時間が週5時間から30分に減少。",
+        "customization": "特になし。音声書き起こしをそのまま貼り付けて使っている",
+        "rating": 4,
+        "helpfulCount": 29,
+        "createdAt": "2025-01-20"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-06"
   },
@@ -1480,7 +1542,32 @@
       "出力後に固有名詞だけ確認すれば完成"
     ],
     "usageCount": 760,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r018a",
+        "promptId": "p018",
+        "authorRole": "営業担当",
+        "authorIndustry": "不動産",
+        "aiTool": "ChatGPT",
+        "outcome": "毎週金曜夜に1時間かけていた週報が15分で終わるように。月報も同様で、その分を別の業務に使えている。",
+        "customization": "自社の週報フォーマットの項目名をそのまま変数に入れたら完璧にフィットした",
+        "rating": 5,
+        "helpfulCount": 51,
+        "createdAt": "2025-01-18"
+      },
+      {
+        "id": "r018b",
+        "promptId": "p018",
+        "authorRole": "マーケティング担当",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "数字の羅列だったKPIレポートが、原因分析つきの読みやすいレポートに変わった。経営陣からの質問が減り、承認が早くなった。",
+        "customization": "「各数値の背景にある要因を必ず1文で解説して」と追記",
+        "rating": 5,
+        "helpfulCount": 34,
+        "createdAt": "2025-01-25"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-07"
   },
@@ -1525,7 +1612,32 @@
       "「特に重要なこと」を正直に書くほど精度が上がる"
     ],
     "usageCount": 890,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r019a",
+        "promptId": "p019",
+        "authorRole": "スタートアップCEO",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "タスクが多すぎて何から手をつけるか迷っていた状態が解消。AIが「今日やること3つ」を明示してくれるので、朝の迷いがゼロになった。",
+        "customization": "「緊急度と重要度の2軸で分類して、今日・今週・今月の3段階で整理して」と追記",
+        "rating": 5,
+        "helpfulCount": 48,
+        "createdAt": "2025-01-22"
+      },
+      {
+        "id": "r019b",
+        "promptId": "p019",
+        "authorRole": "フリーランス",
+        "authorIndustry": "デザイン",
+        "aiTool": "Gemini",
+        "outcome": "複数クライアントのタスクが混在して混乱していた。プロンプトに全タスクを貼り付けたら、クライアント別・期限別に綺麗に整理してくれた。",
+        "customization": "タスクの一覧をそのまま貼るだけで機能した",
+        "rating": 4,
+        "helpfulCount": 22,
+        "createdAt": "2025-02-01"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-08"
   },
@@ -1569,7 +1681,32 @@
       "宛先を「営業部のみ」「管理職以上」など絞ると、適切なトーンで出力される"
     ],
     "usageCount": 540,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r020a",
+        "promptId": "p020",
+        "authorRole": "人事担当",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "社内イベントの告知文を毎回ゼロから書いていたのが、このプロンプトで5分以内に完成するようになった。読んでもらえる文章になったと社員から好評。",
+        "customization": "「読み手が行動したくなるCTAを最後に入れて」と追記",
+        "rating": 4,
+        "helpfulCount": 27,
+        "createdAt": "2025-01-28"
+      },
+      {
+        "id": "r020b",
+        "promptId": "p020",
+        "authorRole": "総務・庶務",
+        "authorIndustry": "小売",
+        "aiTool": "Claude",
+        "outcome": "「空調工事のため〇日は〜」という定型連絡から、社内規程改定のお知らせまで何でも使える。文体が統一されてプロっぽくなった。",
+        "customization": "特になし。そのまま使えた",
+        "rating": 4,
+        "helpfulCount": 19,
+        "createdAt": "2025-02-05"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-09"
   },
@@ -1606,7 +1743,32 @@
       "英語の資料でも日本語で要約してくれる"
     ],
     "usageCount": 1450,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r021a",
+        "promptId": "p021",
+        "authorRole": "経営企画",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "Claude",
+        "outcome": "100ページの調査レポートを3行に要約してそのまま経営会議で使えた。読む時間が1/10になり、意思決定スピードが上がった。",
+        "customization": "「経営層が意思決定するために必要な情報だけ残して」と追記",
+        "rating": 5,
+        "helpfulCount": 71,
+        "createdAt": "2025-02-03"
+      },
+      {
+        "id": "r021b",
+        "promptId": "p021",
+        "authorRole": "研究者",
+        "authorIndustry": "教育・学術",
+        "aiTool": "ChatGPT",
+        "outcome": "英語論文の要約に使っている。3行にまとめてから全文を読むか判断するようになり、文献調査の効率が3倍になった。",
+        "customization": "「日本語で要約して、特に新規性のある主張を強調して」と追記",
+        "rating": 5,
+        "helpfulCount": 43,
+        "createdAt": "2025-02-08"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-10"
   },
@@ -1651,7 +1813,32 @@
       "件名の提案が複数出るので、一番しっくりくるものを選んで"
     ],
     "usageCount": 670,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r022a",
+        "promptId": "p022",
+        "authorRole": "新入社員",
+        "authorIndustry": "金融",
+        "aiTool": "ChatGPT",
+        "outcome": "上司へのメールの言葉遣いが毎回不安だったのが解消。「感じよく」という曖昧な基準をAIが解釈してくれて、先輩から「メールが丁寧だね」と言われた。",
+        "customization": "「私は新入社員なので、敬語を丁寧めに」と補足したら完璧だった",
+        "rating": 5,
+        "helpfulCount": 56,
+        "createdAt": "2025-02-10"
+      },
+      {
+        "id": "r022b",
+        "promptId": "p022",
+        "authorRole": "中途入社",
+        "authorIndustry": "IT・スタートアップ",
+        "aiTool": "Claude",
+        "outcome": "前職と社風が違いすぎてメールの温度感がわからなかった。このプロンプトでちょうどいい距離感の文章になった。",
+        "customization": "「カジュアルすぎず堅すぎない、フラットな職場向けで」と追記",
+        "rating": 4,
+        "helpfulCount": 31,
+        "createdAt": "2025-02-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-11"
   },
@@ -1696,7 +1883,32 @@
       "法的リスクがある場合は必ず法務に確認した上で送付を"
     ],
     "usageCount": 430,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r023a",
+        "promptId": "p023",
+        "authorRole": "店舗スタッフ",
+        "authorIndustry": "飲食・サービス",
+        "aiTool": "ChatGPT",
+        "outcome": "怒っているお客様へのメールを書くのが苦手で毎回時間がかかっていた。プロンプトに状況を入力したら、謝罪と解決策が自然な流れで書けた文章が出てきた。",
+        "customization": "「非は認めつつも、法的に問題のない表現で」と追記",
+        "rating": 5,
+        "helpfulCount": 49,
+        "createdAt": "2025-02-12"
+      },
+      {
+        "id": "r023b",
+        "promptId": "p023",
+        "authorRole": "EC担当",
+        "authorIndustry": "通販・EC",
+        "aiTool": "Claude",
+        "outcome": "商品不備クレームへの対応が劇的に楽になった。感情的にならずに対応できる文章が出るので、対応後の二次クレームがほぼなくなった。",
+        "customization": "「返金・返品の手順を箇条書きで最後に入れて」と追記",
+        "rating": 5,
+        "helpfulCount": 37,
+        "createdAt": "2025-02-18"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-12"
   },
@@ -1746,7 +1958,32 @@
       "構成が決まったら、各スライドの詳細はさらにAIに依頼するとスムーズ"
     ],
     "usageCount": 820,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r024a",
+        "promptId": "p024",
+        "authorRole": "コンサルタント",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "Claude",
+        "outcome": "クライアントへの提案プレゼンのストーリーラインが、会議前30分で完成するようになった。構成の論理性が上がり、プレゼン通過率が改善した。",
+        "customization": "「MECE（漏れなくダブりなく）を意識した構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 58,
+        "createdAt": "2025-02-20"
+      },
+      {
+        "id": "r024b",
+        "promptId": "p024",
+        "authorRole": "営業マネージャー",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "部下のプレゼン資料に構成のフィードバックをする際、まずこのプロンプトで理想の構成を出してから比較するようにした。指導が具体的になった。",
+        "customization": "「聴衆が意思決定者（役員クラス）の場合の構成で」と追記",
+        "rating": 4,
+        "helpfulCount": 24,
+        "createdAt": "2025-02-25"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-13"
   },
@@ -1781,7 +2018,32 @@
       "Q&A部分は部下への説明や研修資料にそのまま使える"
     ],
     "usageCount": 390,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r025a",
+        "promptId": "p025",
+        "authorRole": "人事担当",
+        "authorIndustry": "大手製造業",
+        "aiTool": "Claude",
+        "outcome": "就業規則の改定を全社員に周知する文章作成に使用。法律用語だらけの規程が、誰でも読める解説文に変換された。社員からの問い合わせが激減した。",
+        "customization": "「中学生でも理解できる言葉で、かつ正確に」と追記",
+        "rating": 5,
+        "helpfulCount": 47,
+        "createdAt": "2025-02-22"
+      },
+      {
+        "id": "r025b",
+        "promptId": "p025",
+        "authorRole": "新入社員",
+        "authorIndustry": "金融",
+        "aiTool": "ChatGPT",
+        "outcome": "入社直後に渡された内部規程が全然理解できなかった。このプロンプトで各条文を翻訳してもらったら理解できた。自己学習に最高。",
+        "customization": "「なぜこのルールがあるのかも一言添えて」と追記したら理解が深まった",
+        "rating": 5,
+        "helpfulCount": 33,
+        "createdAt": "2025-02-28"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-14"
   },
@@ -1833,7 +2095,32 @@
       "出力されたヒアリング質問は商談シートにそのまま使える"
     ],
     "usageCount": 730,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r026a",
+        "promptId": "p026",
+        "authorRole": "法人営業",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "初回商談前の準備が30分→10分に短縮。特に「相手企業が抱えているであろう課題」の仮説が精度高く、ヒアリングが深まり初回商談の温度感が上がった。",
+        "customization": "「相手の直近のプレスリリースや決算情報を踏まえた課題仮説を」と追記",
+        "rating": 5,
+        "helpfulCount": 53,
+        "createdAt": "2025-03-01"
+      },
+      {
+        "id": "r026b",
+        "promptId": "p026",
+        "authorRole": "新規事業開発",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "新規アプローチ先のリサーチに活用。業界トレンドと企業の課題を組み合わせたリサーチメモが自動で作れるようになり、アポ取りメールの返信率が改善した。",
+        "customization": "「競合他社との比較視点も含めて」と追記",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-03-05"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-15"
   },
@@ -1878,7 +2165,32 @@
       "出力されたトークはそのまま使わず、自分の言葉に変換して使うこと"
     ],
     "usageCount": 560,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r027a",
+        "promptId": "p027",
+        "authorRole": "法人営業",
+        "authorIndustry": "SaaS",
+        "aiTool": "Claude",
+        "outcome": "「他社で検討中」という断り文句への切り返しが苦手だったのが解消。AIが出した切り返しトークを練習したら、翌月の商談継続率が15%改善した。",
+        "customization": "「押しつけがましくならない、相手の判断を尊重するトーンで」と追記",
+        "rating": 5,
+        "helpfulCount": 61,
+        "createdAt": "2025-03-08"
+      },
+      {
+        "id": "r027b",
+        "promptId": "p027",
+        "authorRole": "インサイドセールス",
+        "authorIndustry": "HR・人材",
+        "aiTool": "ChatGPT",
+        "outcome": "「今は予算がない」「担当者が不在」など断りパターンごとに返しを準備できた。ロールプレイの練習にも使っていて、新人育成にも活用している。",
+        "customization": "「断りの種類別に3パターン出して」と指定",
+        "rating": 5,
+        "helpfulCount": 44,
+        "createdAt": "2025-03-12"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-16"
   },
@@ -1933,7 +2245,32 @@
       "提案資料のスライドに比較表をそのままコピペできる"
     ],
     "usageCount": 480,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r028a",
+        "promptId": "p028",
+        "authorRole": "プリセールス",
+        "authorIndustry": "IT・SIer",
+        "aiTool": "Claude",
+        "outcome": "競合比較表を「自社有利」に設計することで、商談での優位性が明確になった。競合の弱点を攻めすぎず、自社の強みを前面に出す絶妙な表現が出てくる。",
+        "customization": "「競合を貶めず、あくまで自社の独自価値を強調するトーンで」と追記",
+        "rating": 5,
+        "helpfulCount": 42,
+        "createdAt": "2025-03-10"
+      },
+      {
+        "id": "r028b",
+        "promptId": "p028",
+        "authorRole": "営業企画",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "展示会の説明パネル用の競合比較表を作成。来場者の反応が前年より明らかによくなった。特に「なぜ自社を選ぶか」の軸設定が上手だった。",
+        "customization": "「展示会の来場者（非専門家）が一目でわかる比較軸で」と追記",
+        "rating": 4,
+        "helpfulCount": 26,
+        "createdAt": "2025-03-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-17"
   },
@@ -1978,7 +2315,32 @@
       "件名は複数案出るので相手に合わせて選ぶこと"
     ],
     "usageCount": 620,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r029a",
+        "promptId": "p029",
+        "authorRole": "営業担当",
+        "authorIndustry": "広告・メディア",
+        "aiTool": "ChatGPT",
+        "outcome": "「また連絡します」で止まっていた商談が動き出した。フォローメールの文章が「次のアクションを促す」構造になっているので、返信率が体感2倍になった。",
+        "customization": "「相手の業界の直近のトレンドを一文入れて」と追記",
+        "rating": 5,
+        "helpfulCount": 55,
+        "createdAt": "2025-03-12"
+      },
+      {
+        "id": "r029b",
+        "promptId": "p029",
+        "authorRole": "インサイドセールス",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "商談後のフォローメールを毎回ゼロから書いていたのが、テンプレ化できた。内容のクオリティも上がり、上司から「メールが良くなった」と言われた。",
+        "customization": "特になし。変数を変えるだけで違う商談のフォローに使い回せる",
+        "rating": 4,
+        "helpfulCount": 31,
+        "createdAt": "2025-03-18"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-18"
   },
@@ -2033,7 +2395,32 @@
       "有効期限を入れることで意思決定を促せる"
     ],
     "usageCount": 410,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r030a",
+        "promptId": "p030",
+        "authorRole": "営業",
+        "authorIndustry": "建設・不動産",
+        "aiTool": "ChatGPT",
+        "outcome": "見積書と提案レターを別々に作っていたのを統合できた。レターを添えた見積書の受注率が添えない場合より高い気がしている。",
+        "customization": "「価格の正当性を説明する一文を必ず含めて」と追記",
+        "rating": 4,
+        "helpfulCount": 22,
+        "createdAt": "2025-03-15"
+      },
+      {
+        "id": "r030b",
+        "promptId": "p030",
+        "authorRole": "フリーランスデザイナー",
+        "authorIndustry": "デザイン",
+        "aiTool": "Claude",
+        "outcome": "個人事業主として見積書を出すのが苦手だったが、レターを添えることで「プロらしさ」が出た。クライアントへの印象が変わったと感じている。",
+        "customization": "「フリーランス個人として、誠実かつ自信を持ったトーンで」と追記",
+        "rating": 5,
+        "helpfulCount": 37,
+        "createdAt": "2025-03-20"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-19"
   },
@@ -2090,7 +2477,32 @@
       "150字以内に収めることで返信率が上がる傾向がある"
     ],
     "usageCount": 890,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r031a",
+        "promptId": "p031",
+        "authorRole": "新規開拓営業",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "ターゲットリスト100社分のアポ取りメールを1時間で量産。返信率は業界平均の2倍以上。件名のA/Bテストに使えるバリエーションが出るのも助かる。",
+        "customization": "「1通ずつ相手の会社名・担当者名を変えられるよう変数を入れて」と追記",
+        "rating": 5,
+        "helpfulCount": 68,
+        "createdAt": "2025-03-18"
+      },
+      {
+        "id": "r031b",
+        "promptId": "p031",
+        "authorRole": "代理店営業",
+        "authorIndustry": "広告",
+        "aiTool": "Claude",
+        "outcome": "同じメールを送り続けるより、業種別に文章を変えた方が返信率が上がることを確認。このプロンプトで業種別バリエーションを量産している。",
+        "customization": "「製造業向け」「小売業向け」と業種を変えて複数パターン生成",
+        "rating": 4,
+        "helpfulCount": 33,
+        "createdAt": "2025-03-22"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-20"
   },
@@ -2140,7 +2552,32 @@
       "出力された質問は商談シートに印刷して持参するとスムーズ"
     ],
     "usageCount": 510,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r032a",
+        "promptId": "p032",
+        "authorRole": "営業マネージャー",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "部下のヒアリング力強化のために活用。このプロンプトで作ったヒアリングシナリオを事前に渡したら、商談の深掘りが明らかに上達した。チームで共有しています。",
+        "customization": "「ニーズの顕在化→潜在ニーズの掘り起こしの流れで」と追記",
+        "rating": 5,
+        "helpfulCount": 46,
+        "createdAt": "2025-03-20"
+      },
+      {
+        "id": "r032b",
+        "promptId": "p032",
+        "authorRole": "法人営業（新卒3年目）",
+        "authorIndustry": "製造業向けSaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "先輩の商談に同席した時のメモをもとにシナリオを作り、次の商談に活かした。「聞くべき質問の順序」が整理されていて、会話が自然に流れた。",
+        "customization": "「相手が警戒しないよう、最初は業界全般の話から入れるシナリオで」と追記",
+        "rating": 5,
+        "helpfulCount": 39,
+        "createdAt": "2025-03-25"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-21"
   },
@@ -2185,7 +2622,32 @@
       "半年後に再アプローチする際の導入メールとしても使える"
     ],
     "usageCount": 320,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r033a",
+        "promptId": "p033",
+        "authorRole": "法人営業",
+        "authorIndustry": "HR・人材",
+        "aiTool": "Claude",
+        "outcome": "失注後に関係を切ってしまっていたが、このプロンプトで継続フォローを習慣化。3ヶ月後に「やっぱりお願いしたい」と連絡が来たケースが2件あった。",
+        "customization": "「押しつけがましくなく、あくまで情報提供として」と追記",
+        "rating": 5,
+        "helpfulCount": 57,
+        "createdAt": "2025-03-22"
+      },
+      {
+        "id": "r033b",
+        "promptId": "p033",
+        "authorRole": "インサイドセールス",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "失注リストを整理してこのプロンプトでフォローメールを量産。失注から6ヶ月後に復活した案件が3件あり、パイプラインが拡大した。",
+        "customization": "「前回の断り理由を踏まえたアプローチで」と追記",
+        "rating": 4,
+        "helpfulCount": 29,
+        "createdAt": "2025-03-28"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-22"
   },
@@ -2239,7 +2701,32 @@
       "現在の成果を数字で示すと、追加投資の価値を理解してもらいやすい"
     ],
     "usageCount": 370,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r034a",
+        "promptId": "p034",
+        "authorRole": "カスタマーサクセス",
+        "authorIndustry": "SaaS",
+        "aiTool": "Claude",
+        "outcome": "既存顧客への更新タイミングでアップセルを提案。「使い方の振り返り」から自然に上位プランの話に繋げる文章が完璧だった。アップセル率が20%改善。",
+        "customization": "「利用状況データを根拠にして、数値で価値を示して」と追記",
+        "rating": 5,
+        "helpfulCount": 52,
+        "createdAt": "2025-03-25"
+      },
+      {
+        "id": "r034b",
+        "promptId": "p034",
+        "authorRole": "営業担当",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "「どうやってアップセルを切り出すか」が苦手だったのが解消。「現在の課題→上位プランで解決→費用対効果」の流れが自然に組まれた提案文になる。",
+        "customization": "特になし。変数に顧客名と現行プランを入れるだけで使える",
+        "rating": 4,
+        "helpfulCount": 34,
+        "createdAt": "2025-04-01"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-23"
   },
@@ -2269,7 +2756,32 @@
       "ネクストアクションが自動で整理されるので、翌朝の確認にも使える"
     ],
     "usageCount": 580,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r035a",
+        "promptId": "p035",
+        "authorRole": "営業担当",
+        "authorIndustry": "不動産",
+        "aiTool": "ChatGPT",
+        "outcome": "毎日30分かかっていた日報が5分で書けるようになった。内容も「行動の羅列」から「気づきと次のアクション付き」に変わり、上司から評価が上がった。",
+        "customization": "「数字（訪問件数・商談件数・架電数）を必ず入れて」と追記",
+        "rating": 5,
+        "helpfulCount": 64,
+        "createdAt": "2025-04-02"
+      },
+      {
+        "id": "r035b",
+        "promptId": "p035",
+        "authorRole": "新卒営業",
+        "authorIndustry": "広告",
+        "aiTool": "Gemini",
+        "outcome": "入社直後から使い始めた。日報を書く習慣と「振り返り」の習慣が同時につき、成長速度が上がった気がする。",
+        "customization": "「失敗と学びを1つ必ず含めて」と追記して振り返りの質が上がった",
+        "rating": 5,
+        "helpfulCount": 28,
+        "createdAt": "2025-04-05"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-24"
   },
@@ -2340,7 +2852,32 @@
       "出力後に「このビジョンを1枚のスライドにまとめて」と追加指示するとプレゼン資料化できる"
     ],
     "usageCount": 940,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r036a",
+        "promptId": "p036",
+        "authorRole": "経営企画部長",
+        "authorIndustry": "製造業",
+        "aiTool": "Claude",
+        "outcome": "外部コンサルに頼むと数百万円かかる中期経営計画のたたき台が、半日で完成。役員会議に持ち込めるレベルになり、コンサル費用を大幅削減できた。",
+        "customization": "「現場の実態に即した現実的な数値で」と追記。理想論ではなく実行可能な計画になった",
+        "rating": 5,
+        "helpfulCount": 74,
+        "createdAt": "2025-02-10"
+      },
+      {
+        "id": "r036b",
+        "promptId": "p036",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "小売",
+        "aiTool": "ChatGPT",
+        "outcome": "初めて中期計画を作ったが、フレームワークが自動で設計されるので迷わなかった。銀行への融資申請にも使えた。",
+        "customization": "「従業員10名の小売業向けにシンプルな構成で」と追記",
+        "rating": 4,
+        "helpfulCount": 41,
+        "createdAt": "2025-02-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-25"
   },
@@ -2394,7 +2931,32 @@
       "ネクストアクション欄に担当者・期限を必ず入れる運用にすると実行率が上がる"
     ],
     "usageCount": 760,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r037a",
+        "promptId": "p037",
+        "authorRole": "経営企画",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "経営会議のアジェンダ設計が毎回ゼロから作っていたのが、15分で完成するようになった。「決議事項・報告事項・議論事項」の整理が自動でできる。",
+        "customization": "「時間配分を明示して、会議全体で90分以内に収まる構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 38,
+        "createdAt": "2025-02-18"
+      },
+      {
+        "id": "r037b",
+        "promptId": "p037",
+        "authorRole": "秘書",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "社長のスケジュール管理と会議準備を担当。議事録テンプレートが自動で作られるので、準備の抜け漏れがなくなった。",
+        "customization": "特になし。社長の会議に合わせた項目をそのまま変数に入れた",
+        "rating": 4,
+        "helpfulCount": 25,
+        "createdAt": "2025-02-22"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-25"
   },
@@ -2444,7 +3006,32 @@
       "出力後に「競合のBMCと比較して差別化ポイントを分析して」と追加依頼すると深掘りできる"
     ],
     "usageCount": 1120,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r038a",
+        "promptId": "p038",
+        "authorRole": "新規事業担当",
+        "authorIndustry": "大手メーカー",
+        "aiTool": "Claude",
+        "outcome": "アイデア段階のビジネスをBMCで整理することで、穴がすぐ見えた。「最も検証すべき仮説」の出力が特に価値高く、無駄な開発を未然に防げた。",
+        "customization": "「競合のBMCとの比較視点で差別化を分析して」と追記",
+        "rating": 5,
+        "helpfulCount": 59,
+        "createdAt": "2025-02-20"
+      },
+      {
+        "id": "r038b",
+        "promptId": "p038",
+        "authorRole": "スタートアップ共同創業者",
+        "authorIndustry": "フィンテック",
+        "aiTool": "ChatGPT",
+        "outcome": "投資家へのピッチ前にBMCを整理するのに使った。投資家から「ビジネスモデルが明快」と言ってもらえ、次のMTGに繋がった。",
+        "customization": "「フィンテック規制リスクをコスト構造に含めて」と追記",
+        "rating": 5,
+        "helpfulCount": 47,
+        "createdAt": "2025-02-25"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-26"
   },
@@ -2519,7 +3106,32 @@
       "骨子ができたら各スライドを1枚ずつ「肉付けして」と追加依頼すると効率的"
     ],
     "usageCount": 870,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r039a",
+        "promptId": "p039",
+        "authorRole": "CFO",
+        "authorIndustry": "スタートアップ",
+        "aiTool": "Claude",
+        "outcome": "銀行向け事業説明資料の骨子が2時間で完成。融資申請の通過率が改善した。「財務計画の根拠」セクションが特に評価されたと銀行担当者に言われた。",
+        "customization": "「保守的な財務計画の提示を心がけて」と追記",
+        "rating": 5,
+        "helpfulCount": 63,
+        "createdAt": "2025-02-28"
+      },
+      {
+        "id": "r039b",
+        "promptId": "p039",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "投資家向けの資料なんて作ったことがなく途方に暮れていたが、骨子が出てきてから進め方がわかった。公庫の担当者にも「わかりやすい」と言われた。",
+        "customization": "「難しい投資用語を使わず、わかりやすい言葉で」と追記",
+        "rating": 4,
+        "helpfulCount": 36,
+        "createdAt": "2025-03-05"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-26"
   },
@@ -2573,7 +3185,32 @@
       "「最近どう？」より「最近一番楽しかった仕事は？」の方が具体的な答えが返ってくる"
     ],
     "usageCount": 1050,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r040a",
+        "promptId": "p040",
+        "authorRole": "人事部長",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "社長と幹部の1on1を設計するのにこのプロンプトを活用。組織の課題がどこにあるかを「質問で引き出す」設計が秀逸。半年で3つの組織課題を特定できた。",
+        "customization": "「マネージャー層の本音を引き出す、心理的安全性の高い質問で」と追記",
+        "rating": 5,
+        "helpfulCount": 44,
+        "createdAt": "2025-03-02"
+      },
+      {
+        "id": "r040b",
+        "promptId": "p040",
+        "authorRole": "組織開発担当",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "クライアント企業の組織診断のヒアリングシートとして活用。質問の深さが違うので、表面的な課題ではなく根本原因が出てくるようになった。",
+        "customization": "「対話形式で、前の回答を受けて次の質問を深められる構造で」と追記",
+        "rating": 4,
+        "helpfulCount": 29,
+        "createdAt": "2025-03-08"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-27"
   },
@@ -2628,7 +3265,32 @@
       "2〜3の選択肢があっても入力できる。C案も入れて比較させると視野が広がる"
     ],
     "usageCount": 1340,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r041a",
+        "promptId": "p041",
+        "authorRole": "代表取締役",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "投資判断で迷った時にこのプロンプトを使い始めた。感情ではなくフレームワークで判断する習慣がついて、意思決定の質と速度が上がった気がする。",
+        "customization": "「意思決定の緊急度に応じて、簡易版と詳細版を出し分けて」と指定",
+        "rating": 5,
+        "helpfulCount": 58,
+        "createdAt": "2025-03-05"
+      },
+      {
+        "id": "r041b",
+        "promptId": "p041",
+        "authorRole": "事業部長",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "新規サプライヤーの選定でこのプロンプトを活用。経験則だけで決めていた判断に論理的な根拠が加わり、役員会での説明が楽になった。",
+        "customization": "「リスクヘッジの観点を特に強調して」と追記",
+        "rating": 4,
+        "helpfulCount": 32,
+        "createdAt": "2025-03-10"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-27"
   },
@@ -2677,7 +3339,32 @@
       "「思考力」の質問はケース問題より「実際の経験から」引き出す方が本質が見えやすい"
     ],
     "usageCount": 820,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r042a",
+        "promptId": "p042",
+        "authorRole": "採用責任者",
+        "authorIndustry": "スタートアップ",
+        "aiTool": "Claude",
+        "outcome": "毎回面接官によって評価基準がバラバラだった問題が解消。評価シートをこのプロンプトで作って統一したら、採用の質が上がった。",
+        "customization": "「カルチャーフィットの評価項目を必ず含めて」と追記",
+        "rating": 5,
+        "helpfulCount": 47,
+        "createdAt": "2025-03-08"
+      },
+      {
+        "id": "r042b",
+        "promptId": "p042",
+        "authorRole": "中途入社の面接官",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "初めて面接官を任されて何を聞けばいいか全くわからなかった。このプロンプトで作った質問リストを手元に置いて面接したら、落ち着いて進められた。",
+        "customization": "「マーケティング職特有のスキル確認質問を中心に」と追記",
+        "rating": 5,
+        "helpfulCount": 39,
+        "createdAt": "2025-03-12"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-28"
   },
@@ -2731,7 +3418,32 @@
       "比較表をそのままスライドに貼ると営業資料になる"
     ],
     "usageCount": 760,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r043a",
+        "promptId": "p043",
+        "authorRole": "戦略コンサルタント",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "Claude",
+        "outcome": "クライアントの競合分析を10分で骨子化。その後一次情報で肉付けするワークフローが確立し、分析時間が1/3になった。",
+        "customization": "「仮説ドリブンで、結論から書く構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 61,
+        "createdAt": "2025-03-10"
+      },
+      {
+        "id": "r043b",
+        "promptId": "p043",
+        "authorRole": "事業開発",
+        "authorIndustry": "メディア",
+        "aiTool": "ChatGPT",
+        "outcome": "新規参入を検討している市場の競合分析に活用。「どこに自社の席があるか」の視点が出てくるのが特に役立つ。",
+        "customization": "「市場の空白（ホワイトスペース）を見つける視点で分析して」と追記",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-03-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-28"
   },
@@ -2805,7 +3517,32 @@
       "想定疑問への先回り回答をスクリプトに入れるとQAが楽になる"
     ],
     "usageCount": 690,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r044a",
+        "promptId": "p044",
+        "authorRole": "経営者・代表",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "全社員100名へのビジョン発表スクリプトをこのプロンプトで作成。「感情的クライマックス」のパートが特に良く、終了後に複数の社員から感動したと言われた。",
+        "customization": "「数字の羅列ではなく、ストーリーで語れる構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 52,
+        "createdAt": "2025-03-12"
+      },
+      {
+        "id": "r044b",
+        "promptId": "p044",
+        "authorRole": "事業部長",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "部門方針の説明会でこのスクリプトを活用。「なぜやるか」の説明が論理的かつ感情に訴える構成になり、メンバーのモチベーションが高まった。",
+        "customization": "「現場スタッフにもわかりやすい言葉で、専門用語を避けて」と追記",
+        "rating": 4,
+        "helpfulCount": 31,
+        "createdAt": "2025-03-18"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-29"
   },
@@ -2861,7 +3598,32 @@
       "ダッシュボード構築ツールはLooker Studio（無料）かNotionが経営者向けにはおすすめ"
     ],
     "usageCount": 1080,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r045a",
+        "promptId": "p045",
+        "authorRole": "経営企画マネージャー",
+        "authorIndustry": "EC",
+        "aiTool": "Claude",
+        "outcome": "KPIを増やしすぎて誰も見なくなっていたダッシュボードを設計し直すのに活用。「本当に重要な5指標」に絞れて、経営会議でのKPI議論が活性化した。",
+        "customization": "「KPIは5つ以内、経営者が毎朝確認できる粒度で」と追記",
+        "rating": 5,
+        "helpfulCount": 49,
+        "createdAt": "2025-03-15"
+      },
+      {
+        "id": "r045b",
+        "promptId": "p045",
+        "authorRole": "データアナリスト",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "新しく立ち上げたプロダクトのKPI設計に活用。「遅行指標と先行指標のバランス」の視点が入っていて、経営陣との議論が深まった。",
+        "customization": "「SaaSビジネス特有の指標（ARR・チャーン・LTV等）を重視して」と追記",
+        "rating": 5,
+        "helpfulCount": 38,
+        "createdAt": "2025-03-20"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-29"
   },
@@ -2925,7 +3687,32 @@
       "ハッシュタグのビッグ・ミドル・ニッチ構成はInstagramのリーチ戦略の基本"
     ],
     "usageCount": 2140,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r046a",
+        "promptId": "p046",
+        "authorRole": "SNSマーケター",
+        "authorIndustry": "美容・コスメ",
+        "aiTool": "ChatGPT",
+        "outcome": "Instagramリールの台本を毎週5本作るのが限界だったのが、このプロンプトで20本以上量産できるようになった。フォロワーが3ヶ月で1.2万→2.8万に成長。",
+        "customization": "「美容系のターゲット（20〜30代女性）向けに、共感から入る構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 73,
+        "createdAt": "2025-03-18"
+      },
+      {
+        "id": "r046b",
+        "promptId": "p046",
+        "authorRole": "個人クリエイター",
+        "authorIndustry": "ライフスタイル",
+        "aiTool": "Gemini",
+        "outcome": "TikTokで伸び悩んでいたが、このプロンプトで台本を作り直したら1本が10万再生を超えた。「最初の3秒で引き込む」構成が特に効果的。",
+        "customization": "「冒頭の3秒で視聴者を引き込むフックを必ず入れて」と追記",
+        "rating": 5,
+        "helpfulCount": 86,
+        "createdAt": "2025-03-22"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-01"
   },
@@ -2973,7 +3760,32 @@
       "10本作ったらNotionやスプレッドシートで管理し、毎週1サイクルで運用すると継続しやすい"
     ],
     "usageCount": 1870,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r047a",
+        "promptId": "p047",
+        "authorRole": "個人事業主",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "Xのフォロワーが3ヶ月で500→3,200人に増加。バズツイートを量産するパターンが身につき、今はプロンプトなしでも書けるようになった。",
+        "customization": "「コンサル・ビジネス系でバズりやすい「気づき系」ツイートを中心に」と追記",
+        "rating": 5,
+        "helpfulCount": 91,
+        "createdAt": "2025-03-20"
+      },
+      {
+        "id": "r047b",
+        "promptId": "p047",
+        "authorRole": "マーケティング担当",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "会社の公式アカウントの投稿に活用。エンゲージメント率が月平均1.2%→3.8%に改善。特に「問い」で終わるツイートへの反応が良かった。",
+        "customization": "「BtoB SaaS企業として、専門知識を平易に伝えるトーンで」と追記",
+        "rating": 4,
+        "helpfulCount": 42,
+        "createdAt": "2025-03-25"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-01"
   },
@@ -3019,7 +3831,32 @@
       "完成したペルソナは広告・LP・SNS投稿のレビュー基準として使う。「このペルソナは刺さるか？」と問い続ける"
     ],
     "usageCount": 1580,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r048a",
+        "promptId": "p048",
+        "authorRole": "マーケティングディレクター",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "ペルソナが「30代男性・会社員」という雑な定義から脱却できた。詳細なペルソナが決まったことで、コピーのブレがなくなり広告CTRが1.8%→3.2%に改善。",
+        "customization": "「心理的な欲求（隠れた動機）まで深掘りして」と追記",
+        "rating": 5,
+        "helpfulCount": 66,
+        "createdAt": "2025-03-22"
+      },
+      {
+        "id": "r048b",
+        "promptId": "p048",
+        "authorRole": "フリーランスライター",
+        "authorIndustry": "コンテンツ",
+        "aiTool": "ChatGPT",
+        "outcome": "クライアントのペルソナ設計を依頼された際に使用。自分では3時間かかる作業が30分で完成し、クライアントから「ここまで詳しく作れると思わなかった」と驚かれた。",
+        "customization": "「デジタル行動（どんなSNSをどう使うか）の項目を必ず含めて」と追記",
+        "rating": 5,
+        "helpfulCount": 48,
+        "createdAt": "2025-03-28"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-02"
   },
@@ -3082,7 +3919,32 @@
       "出力後、各セクションを「この文を読んだペルソナはどう感じるか？」と問いながらブラッシュアップする"
     ],
     "usageCount": 1920,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r049a",
+        "promptId": "p049",
+        "authorRole": "LP制作ディレクター",
+        "authorIndustry": "Web制作",
+        "aiTool": "Claude",
+        "outcome": "LPのコピーが苦手でライターに頼んでいたのが、このプロンプトで内製化できた。クライアントへの初稿提出が倍速になり、修正回数も減った。",
+        "customization": "「Webライティングの鉄則（スキャンされることを前提に）を守って」と追記",
+        "rating": 5,
+        "helpfulCount": 77,
+        "createdAt": "2025-03-25"
+      },
+      {
+        "id": "r049b",
+        "promptId": "p049",
+        "authorRole": "スタートアップ創業者",
+        "authorIndustry": "HR・採用",
+        "aiTool": "ChatGPT",
+        "outcome": "自社のLPコピーを自分で書いていたが、このプロンプトで作り直したら問い合わせ数が月3件→12件に増えた。「ヒーローコピー」のセクションが特に良かった。",
+        "customization": "「HRテック領域の競合LPより差別化できる言葉で」と追記",
+        "rating": 5,
+        "helpfulCount": 55,
+        "createdAt": "2025-04-01"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-02"
   },
@@ -3139,7 +4001,32 @@
       "完成したシナリオはMailchimpやBrevoなどのMAツールでそのまま実装できる"
     ],
     "usageCount": 1340,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r050a",
+        "promptId": "p050",
+        "authorRole": "マーケティングマネージャー",
+        "authorIndustry": "SaaS",
+        "aiTool": "Claude",
+        "outcome": "メルマガのシナリオ設計を外注から内製化できた。導入してから3ヶ月で、メルマガ経由の商談率が1.2%→3.5%に改善。ステップメールの構造が秀逸。",
+        "customization": "「各メールの間隔と配信タイミングの根拠を説明して」と追記",
+        "rating": 5,
+        "helpfulCount": 58,
+        "createdAt": "2025-04-02"
+      },
+      {
+        "id": "r050b",
+        "promptId": "p050",
+        "authorRole": "個人ビジネス経営者",
+        "authorIndustry": "コーチング",
+        "aiTool": "ChatGPT",
+        "outcome": "読者を顧客に変えるのに苦労していたが、このシナリオ設計で成約率が2倍になった。特に「信頼構築→課題提示→解決策提示」の流れが自然。",
+        "customization": "「ハイタッチなコーチングサービス向けに、押しつけがましくない誘導で」と追記",
+        "rating": 4,
+        "helpfulCount": 36,
+        "createdAt": "2025-04-05"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-03"
   },
@@ -3198,7 +4085,32 @@
       "競合弱点は「やっていない」だけでなく「やっているが質が低い」も含めて考える"
     ],
     "usageCount": 980,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r051a",
+        "promptId": "p051",
+        "authorRole": "SNSマーケター",
+        "authorIndustry": "EC",
+        "aiTool": "Claude",
+        "outcome": "競合10社のInstagramを分析し、「誰も投稿していないネタ」を発見。そのポジションで投稿し始めたら、フォロワー増加率が3倍になった。",
+        "customization": "「コンテンツの空白（競合がやっていないこと）を特定することに注力して」と追記",
+        "rating": 5,
+        "helpfulCount": 64,
+        "createdAt": "2025-04-03"
+      },
+      {
+        "id": "r051b",
+        "promptId": "p051",
+        "authorRole": "スタートアップCMO",
+        "authorIndustry": "HR",
+        "aiTool": "ChatGPT",
+        "outcome": "競合のSNS戦略を体系的に把握できた。「なぜ競合が伸びているか」の仮説と、「自社が勝てるポイント」が整理され、SNS戦略の方向性が定まった。",
+        "customization": "「フォロワー数だけでなく、エンゲージメント率と投稿頻度も分析して」と追記",
+        "rating": 4,
+        "helpfulCount": 38,
+        "createdAt": "2025-04-08"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-03"
   },
@@ -3255,7 +4167,32 @@
       "CTRが1%を超えたコピーは「本物」。そこから似たバリエーションを量産する"
     ],
     "usageCount": 1650,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r052a",
+        "promptId": "p052",
+        "authorRole": "広告運用担当",
+        "authorIndustry": "EC",
+        "aiTool": "ChatGPT",
+        "outcome": "Google広告のコピー制作が1案→10案を瞬時に量産できるようになった。A/Bテストの素材が増え、CTRが平均1.8%から2.9%に改善。",
+        "customization": "「リスティング広告の文字数制限（見出し30文字・説明文90文字）を厳守して」と追記",
+        "rating": 5,
+        "helpfulCount": 69,
+        "createdAt": "2025-04-05"
+      },
+      {
+        "id": "r052b",
+        "promptId": "p052",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "士業",
+        "aiTool": "Claude",
+        "outcome": "Meta広告を初めて運用する際にコピー作成で困っていた。このプロンプトで作ったコピーを使ったら、初月からROAS 3倍を達成できた。",
+        "customization": "「法律事務所の広告表現規制を守りながら、訴求力のあるコピーで」と追記",
+        "rating": 4,
+        "helpfulCount": 31,
+        "createdAt": "2025-04-10"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-04"
   },
@@ -3313,7 +4250,32 @@
       "構成ができたら各セクションを「このセクションを500字で書いて」と分割して依頼するとより精度が上がる"
     ],
     "usageCount": 1760,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r053a",
+        "promptId": "p053",
+        "authorRole": "コンテンツマーケター",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "SEO記事の構成作成が1記事2時間→30分に短縮。Googleの上位表示要件を満たした構成が自動で出てくるので、ライターへの指示も明確になった。",
+        "customization": "「競合記事との差別化ポイントを構成に反映して」と追記",
+        "rating": 5,
+        "helpfulCount": 82,
+        "createdAt": "2025-04-08"
+      },
+      {
+        "id": "r053b",
+        "promptId": "p053",
+        "authorRole": "フリーランスライター",
+        "authorIndustry": "Webメディア",
+        "aiTool": "ChatGPT",
+        "outcome": "SEO知識が少ない自分でも、上位表示を狙える記事構成が作れるようになった。このプロンプトで構成→本文執筆の流れが確立し、月の生産本数が2倍になった。",
+        "customization": "「E-E-A-T（専門性・権威性・信頼性）を意識した構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 54,
+        "createdAt": "2025-04-12"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-04"
   },
@@ -3378,7 +4340,32 @@
       "ターゲットメディアを入れることでAIがそのメディアの読者層に合った言葉を選んでくれる"
     ],
     "usageCount": 890,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r054a",
+        "promptId": "p054",
+        "authorRole": "広報PR担当",
+        "authorIndustry": "スタートアップ",
+        "aiTool": "Claude",
+        "outcome": "プレスリリースが記者に全然読まれなかったのが、このプロンプトで作り直したら2誌に掲載された。「記者目線」の書き方が全く違うことに気づかされた。",
+        "customization": "「IT系メディアの記者が好む、データと独自性を強調した書き方で」と追記",
+        "rating": 5,
+        "helpfulCount": 67,
+        "createdAt": "2025-04-10"
+      },
+      {
+        "id": "r054b",
+        "promptId": "p054",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "食品",
+        "aiTool": "ChatGPT",
+        "outcome": "PR会社に頼まずプレスリリースを自分で作れるようになった。地元の新聞とWebメディアに取材してもらえ、売上が一時的に30%増加した。",
+        "customization": "「地域密着型の話題として、地元への貢献を前面に出して」と追記",
+        "rating": 4,
+        "helpfulCount": 43,
+        "createdAt": "2025-04-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-05"
   },
@@ -3420,7 +4407,32 @@
       "このプロンプトで抽出したワードを、p048のペルソナシートに追記すると精度がさらに上がる"
     ],
     "usageCount": 1120,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r055a",
+        "promptId": "p055",
+        "authorRole": "マーケティングディレクター",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "顧客インタビュー3人分を貼り付けたら、広告コピーに使える「生の言葉」が20個一気に抽出された。そのまま広告に使ったら、CTRが1.9%→3.4%に改善。インタビューの価値を最大化できた。",
+        "customization": "「SNS投稿よりもLP用の長文コピーを優先して抽出して」と追記",
+        "rating": 5,
+        "helpfulCount": 57,
+        "createdAt": "2025-04-10"
+      },
+      {
+        "id": "r055b",
+        "promptId": "p055",
+        "authorRole": "コンテンツマーケター",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "「顧客の言葉をそのまま使う」重要性をこのプロンプトで体感した。自分が考えたコピーより、インタビューから抽出した言葉の方が3倍クリックされた。VoC活用が習慣になった。",
+        "customization": "「BtoB向けに、課題の深刻さが伝わる言葉を優先して抽出して」と追記",
+        "rating": 5,
+        "helpfulCount": 41,
+        "createdAt": "2025-04-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-05"
   },
@@ -3489,6 +4501,18 @@
         "rating": 5,
         "helpfulCount": 42,
         "createdAt": "2025-01-10"
+      },
+      {
+        "id": "r056b",
+        "promptId": "p056",
+        "authorRole": "チームリーダー",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "1on1が「報告会」になっていたのを「対話」に変えられた。特に「マネージャーへのフィードバック質問」を入れてから、自分自身の改善点もわかるようになった。",
+        "customization": "「日本語でのコミュニケーションが苦手なメンバー向けに、オープン質問をわかりやすく」と追記",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-02-05"
       }
     ],
     "forks": [],
@@ -3568,6 +4592,18 @@
         "rating": 5,
         "helpfulCount": 38,
         "createdAt": "2025-01-20"
+      },
+      {
+        "id": "r057b",
+        "promptId": "p057",
+        "authorRole": "スタートアップCTO",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "エンジニアへの評価フィードバックが苦手だった。SBI法で構造化された文章が出てきて、技術的な成果と行動を分けて伝えられるようになった。",
+        "customization": "「エンジニア職特有の評価（コードの質・技術負債への取り組み）を含めて」と追記",
+        "rating": 4,
+        "helpfulCount": 23,
+        "createdAt": "2025-02-22"
       }
     ],
     "forks": [],
@@ -3624,7 +4660,32 @@
       "「また機会があれば」の一文は、将来の優秀な候補者との関係維持につながる"
     ],
     "usageCount": 760,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r058a",
+        "promptId": "p058",
+        "authorRole": "採用担当",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "不採用通知を送るたびに「定型文すぎて申し訳ない」と思っていた。このプロンプトで作った通知を送ったら、候補者から「丁寧なご連絡ありがとうございました」と返信が来た。",
+        "customization": "「最終面接後の不採用は特に丁寧に、感謝の言葉を多めに」と追記",
+        "rating": 5,
+        "helpfulCount": 41,
+        "createdAt": "2025-03-18"
+      },
+      {
+        "id": "r058b",
+        "promptId": "p058",
+        "authorRole": "人事マネージャー",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "「残念ながら」「ご縁がなく」を使わない通知が新鮮だった。数人の候補者から「また機会があれば応募したい」と言ってもらえ、タレントプールの維持に役立っている。",
+        "customization": "特になし。そのままで十分なクオリティだった",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-03-22"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-01-25"
   },
@@ -3673,7 +4734,32 @@
       "「上司への評価」設問は匿名性を強調しないと本音が出ない"
     ],
     "usageCount": 540,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r059a",
+        "promptId": "p059",
+        "authorRole": "人事企画",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "初めてエンゲージメントサーベイを設計したが、eNPSの重要性や設問数の上限など、専門家のアドバイスがそのまま設計に反映された。回答率が88%と高く驚いた。",
+        "customization": "「マネジメント層が怖くて答えられないような設問は避けて」と追記",
+        "rating": 5,
+        "helpfulCount": 34,
+        "createdAt": "2025-03-25"
+      },
+      {
+        "id": "r059b",
+        "promptId": "p059",
+        "authorRole": "組織開発担当",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "毎年形骸化していた満足度調査を刷新。このプロンプトで作った設問が「本音を引き出す」質問になっていて、分析から3つの具体的な改善施策に繋がった。",
+        "customization": "「製造現場の社員が答えやすい、スマホで5分以内で終わる設問で」と追記",
+        "rating": 4,
+        "helpfulCount": 22,
+        "createdAt": "2025-04-01"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-01"
   },
@@ -3741,6 +4827,18 @@
         "rating": 5,
         "helpfulCount": 29,
         "createdAt": "2025-02-10"
+      },
+      {
+        "id": "r060b",
+        "promptId": "p060",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "小売",
+        "aiTool": "ChatGPT",
+        "outcome": "パート社員向け接客研修を初めて社内で企画。このプロンプトで設計書を作り、外部講師なしで実施できた。参加者アンケートで満足度90%超え。",
+        "customization": "「パート・アルバイト向けに、難しい言葉を使わない研修で」と追記",
+        "rating": 4,
+        "helpfulCount": 19,
+        "createdAt": "2025-02-28"
       }
     ],
     "forks": [],
@@ -3796,7 +4894,32 @@
       "上限額を正直に入れてOK。スクリプトには直接出てこない"
     ],
     "usageCount": 440,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r061a",
+        "promptId": "p061",
+        "authorRole": "採用責任者",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "候補者から「800万円希望」と言われた際、代替条件（評価昇給タイミング前倒し＋リモート手当）を提案するパターン2を活用。定価700万円で承諾してもらえた。",
+        "customization": "「代替条件を魅力的に見せる表現に磨いて」と追記",
+        "rating": 5,
+        "helpfulCount": 48,
+        "createdAt": "2025-03-28"
+      },
+      {
+        "id": "r061b",
+        "promptId": "p061",
+        "authorRole": "人事マネージャー",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "給与交渉を受けるたびに場当たり的な対応をしていたのが、3パターンを事前に準備することで一貫した対応ができるようになった。",
+        "customization": "「電話トークの方を特に詳しく、会話のテンポも意識して」と追記",
+        "rating": 4,
+        "helpfulCount": 29,
+        "createdAt": "2025-04-02"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-15"
   },
@@ -3851,7 +4974,32 @@
       "雇用保険・健康保険の手続き期限（退職後5日・14日等）も自動で含まれる"
     ],
     "usageCount": 670,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r062a",
+        "promptId": "p062",
+        "authorRole": "総務担当",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "退職手続きで毎回抜け漏れが発生していたのが完全に解消。「GitHub権限削除」や「Slack有料プランの削除」など、IT系ツールの権限管理チェックが特に助かった。",
+        "customization": "「SaaS会社向けに、クラウドサービスの権限削除項目を充実させて」と追記",
+        "rating": 5,
+        "helpfulCount": 37,
+        "createdAt": "2025-04-05"
+      },
+      {
+        "id": "r062b",
+        "promptId": "p062",
+        "authorRole": "人事担当",
+        "authorIndustry": "製造業",
+        "aiTool": "Claude",
+        "outcome": "社会保険の喪失届の期限（5日以内）など、法的な手続き期限も含まれているのが便利。コンプライアンス的な安心感がある。",
+        "customization": "特になし。そのまま自社の退職フローに組み込んだ",
+        "rating": 4,
+        "helpfulCount": 24,
+        "createdAt": "2025-04-08"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-02-18"
   },
@@ -3919,6 +5067,18 @@
         "rating": 5,
         "helpfulCount": 35,
         "createdAt": "2025-02-22"
+      },
+      {
+        "id": "r063b",
+        "promptId": "p063",
+        "authorRole": "採用担当",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "新卒1年目のオンボーディングプランに活用。「Month 1の到達目標」を入社前に本人と共有したら、モチベーション高く入社してくれた。離職リスクが下がった気がする。",
+        "customization": "「新卒らしく、慣れることを焦らず環境適応を最優先にした設計で」と追記",
+        "rating": 5,
+        "helpfulCount": 32,
+        "createdAt": "2025-03-10"
       }
     ],
     "forks": [],
@@ -3984,6 +5144,18 @@
         "rating": 5,
         "helpfulCount": 67,
         "createdAt": "2025-03-01"
+      },
+      {
+        "id": "r064b",
+        "promptId": "p064",
+        "authorRole": "スタートアップ経営者",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "Indeed掲載の求人票をリライトしたら、週の応募数が2件から9件に増えた。特に「仕事内容」の書き方が「あなたが解決する課題」視点に変わったのが効いた。",
+        "customization": "「Indeed向けにキーワードを最適化して」と追記",
+        "rating": 4,
+        "helpfulCount": 29,
+        "createdAt": "2025-03-15"
       }
     ],
     "forks": [],
@@ -4029,7 +5201,32 @@
       "電話で実施する場合、最初の2分間の雑談で相手の話しやすさが決まる"
     ],
     "usageCount": 380,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r065a",
+        "promptId": "p065",
+        "authorRole": "採用担当",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "「また一緒に働きたいか」という質問への答えの濁し方で、採用を踏みとどまった候補者がいた。リファレンスの読み解き方が特に実践的で役立った。",
+        "customization": "「エンジニアリングマネージャー職に特化した技術系の質問を含めて」と追記",
+        "rating": 5,
+        "helpfulCount": 35,
+        "createdAt": "2025-04-10"
+      },
+      {
+        "id": "r065b",
+        "promptId": "p065",
+        "authorRole": "スタートアップCEO",
+        "authorIndustry": "フィンテック",
+        "aiTool": "ChatGPT",
+        "outcome": "リファレンスチェックを初めて実施する際に使用。何を聞けばいいかゼロから考える必要がなく、懸念事項の確認が自然な会話の中でできた。",
+        "customization": "「競合他社への情報漏洩リスクの確認も（遠回しに）含めて」と追記",
+        "rating": 4,
+        "helpfulCount": 21,
+        "createdAt": "2025-04-12"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-05"
   },
@@ -4118,6 +5315,18 @@
         "rating": 5,
         "helpfulCount": 58,
         "createdAt": "2025-03-10"
+      },
+      {
+        "id": "r066b",
+        "promptId": "p066",
+        "authorRole": "経営企画",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "比較検討のセクションで「なぜ他の選択肢を選ばないか」を明示したのが決め手だった。役員からの「なんでそれにするの？」という質問がなくなった。",
+        "customization": "「決裁者が5秒でYESと言えるよう、冒頭2行に結論を凝縮して」と追記",
+        "rating": 4,
+        "helpfulCount": 31,
+        "createdAt": "2025-03-22"
       }
     ],
     "forks": [],
@@ -4182,6 +5391,18 @@
         "rating": 5,
         "helpfulCount": 49,
         "createdAt": "2025-03-12"
+      },
+      {
+        "id": "r067b",
+        "promptId": "p067",
+        "authorRole": "スタートアップ創業者",
+        "authorIndustry": "SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "NDAと業務委託契約を毎回弁護士に送っていたが、このプロンプトで一次チェックしてから送るように変えた。弁護士費用が月5万円→1万円に削減。",
+        "customization": "「スタートアップが特に注意すべきIP（知的財産）条項を優先して」と追記",
+        "rating": 5,
+        "helpfulCount": 44,
+        "createdAt": "2025-03-28"
       }
     ],
     "forks": [],
@@ -4249,6 +5470,18 @@
         "rating": 4,
         "helpfulCount": 41,
         "createdAt": "2025-03-15"
+      },
+      {
+        "id": "r068b",
+        "promptId": "p068",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "IT導入補助金の申請でスケジュール逆算表を活用。「締め切り3週間前からの準備が必要」と気づき、余裕を持って申請できた。無事採択。",
+        "customization": "「IT導入補助金のIT事業者登録が必要という情報も含めて」と追記",
+        "rating": 4,
+        "helpfulCount": 26,
+        "createdAt": "2025-04-02"
       }
     ],
     "forks": [],
@@ -4309,7 +5542,32 @@
       "従業員数10人以上の会社は就業規則の労基署届出が義務"
     ],
     "usageCount": 510,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r069a",
+        "promptId": "p069",
+        "authorRole": "人事部長",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "テレワーク規程の整備に使用。社労士への確認前のたたき台として活用し、「ほぼこれで問題ない」と言ってもらえた。法改正対応のスピードが上がった。",
+        "customization": "「2024年の改正労働関連法に準拠した内容で」と追記",
+        "rating": 4,
+        "helpfulCount": 31,
+        "createdAt": "2025-04-08"
+      },
+      {
+        "id": "r069b",
+        "promptId": "p069",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "小売",
+        "aiTool": "ChatGPT",
+        "outcome": "育休・産休の規程整備を社労士なしで着手できた。このプロンプトのたたき台＋最終確認のみを社労士に依頼する形で、コストを半分以下に抑えられた。",
+        "customization": "「小売業・パート従業員が多い職場向けの表現で」と追記",
+        "rating": 4,
+        "helpfulCount": 23,
+        "createdAt": "2025-04-12"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-18"
   },
@@ -4373,7 +5631,32 @@
       "この出力はたたき台。必ず弁護士・PR担当が確認してから公表する"
     ],
     "usageCount": 340,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r070a",
+        "promptId": "p070",
+        "authorRole": "広報PR責任者",
+        "authorIndustry": "EC",
+        "aiTool": "Claude",
+        "outcome": "情報漏洩インシデントが発生した際、このプロンプトで初稿を30分で作成。NGワードリストで「調査中のため詳細は控える」という表現に気づき、炎上を回避できた。",
+        "customization": "「発生から24時間以内の初期声明として、不確定な情報を慎重に扱う表現で」と追記",
+        "rating": 5,
+        "helpfulCount": 58,
+        "createdAt": "2025-04-10"
+      },
+      {
+        "id": "r070b",
+        "promptId": "p070",
+        "authorRole": "経営者",
+        "authorIndustry": "飲食",
+        "aiTool": "ChatGPT",
+        "outcome": "SNSでの炎上対応に使用。感情的にならず事実を整理した声明文が出て、炎上が拡大せず収束した。「初動72時間のアクションリスト」が特に役立った。",
+        "customization": "特になし。緊急時に即使えるのが一番の価値",
+        "rating": 5,
+        "helpfulCount": 44,
+        "createdAt": "2025-04-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-20"
   },
@@ -4427,7 +5710,32 @@
       "研修後チェックリストは上司が部下の行動変容を観察するシートとしても使える"
     ],
     "usageCount": 420,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r071a",
+        "promptId": "p071",
+        "authorRole": "コンプライアンス担当",
+        "authorIndustry": "金融",
+        "aiTool": "Claude",
+        "outcome": "毎年外注していたコンプライアンス研修資料を初めて内製化。ケーススタディが業種特有のリスク（金融商品の不適切販売等）を具体的に含めてくれたのが助かった。",
+        "customization": "「金融業の規制（金融商品取引法・銀行法）に関するリスクを中心に」と追記",
+        "rating": 5,
+        "helpfulCount": 39,
+        "createdAt": "2025-04-12"
+      },
+      {
+        "id": "r071b",
+        "promptId": "p071",
+        "authorRole": "人事総務",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "ハラスメント研修のテキスト作成に活用。「正解のないジレンマ問題」が参加者に刺さり、研修後のアンケートで満足度が前年比20%向上した。",
+        "customization": "「スタートアップ特有のカジュアルなハラスメント（フラットな組織でのハラスメント）事例を含めて」と追記",
+        "rating": 4,
+        "helpfulCount": 26,
+        "createdAt": "2025-04-15"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-22"
   },
@@ -4496,7 +5804,32 @@
       "法的措置を「する」に設定すると、より強い表現の文書が生成される"
     ],
     "usageCount": 590,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r072a",
+        "promptId": "p072",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "3ヶ月以上未払いの取引先への督促状に使用。弁護士なしで内容証明レベルの文章ができ、送付後1週間で全額入金があった。",
+        "customization": "「法的措置への言及を入れて、真剣さを伝えて」と追記",
+        "rating": 5,
+        "helpfulCount": 61,
+        "createdAt": "2025-04-15"
+      },
+      {
+        "id": "r072b",
+        "promptId": "p072",
+        "authorRole": "フリーランス",
+        "authorIndustry": "デザイン",
+        "aiTool": "ChatGPT",
+        "outcome": "クライアントへのクレーム文書を書くのが苦手だったが、感情的にならず事実だけで組み立てた文書が出てきた。相手も素直に応じてくれた。",
+        "customization": "「個人事業主が法人クライアントに送る、萎縮せず対等なトーンで」と追記",
+        "rating": 4,
+        "helpfulCount": 33,
+        "createdAt": "2025-04-18"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-25"
   },
@@ -4550,7 +5883,32 @@
       "BCPは作って終わりではなく年1回の訓練が義務付けられていることに注意"
     ],
     "usageCount": 290,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r073a",
+        "promptId": "p073",
+        "authorRole": "総務部長",
+        "authorIndustry": "製造業",
+        "aiTool": "Claude",
+        "outcome": "「BCPを作らないといけない」と言われ続けていたが何から始めるかわからなかった。このプロンプトでたたき台が出て、経営幹部での議論を始めることができた。",
+        "customization": "「地震・水害を主な想定リスクとして（東海地方所在）」と追記",
+        "rating": 4,
+        "helpfulCount": 35,
+        "createdAt": "2025-04-18"
+      },
+      {
+        "id": "r073b",
+        "promptId": "p073",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "食品製造",
+        "aiTool": "ChatGPT",
+        "outcome": "取引先から「BCPを提出して」と言われ困っていた。このプロンプトで1日でたたき台が完成し、提出をクリアできた。内容も十分なレベルだと言われた。",
+        "customization": "「食品製造業の衛生・品質管理継続を重視した内容で」と追記",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-04-20"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-28"
   },
@@ -4609,7 +5967,32 @@
       "決議の「賛否」を必ず明記する（全員賛成でも記録に残す）"
     ],
     "usageCount": 460,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r074a",
+        "promptId": "p074",
+        "authorRole": "経営企画・秘書",
+        "authorIndustry": "スタートアップ",
+        "aiTool": "Claude",
+        "outcome": "取締役会の議事録を毎回司法書士に外注していたが、このプロンプトで内製化できた。法的要件を満たしているか確認するチェックリストが特に役立った。",
+        "customization": "「決議事項の賛否を明確に、全員賛成でも必ず記録するよう」と追記",
+        "rating": 5,
+        "helpfulCount": 42,
+        "createdAt": "2025-04-20"
+      },
+      {
+        "id": "r074b",
+        "promptId": "p074",
+        "authorRole": "代表取締役",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "音声録音した会議をAIで文字起こし→このプロンプトで議事録化のフローが完成した。議事録作成が完全に自動化でき、月4時間の節約になった。",
+        "customization": "特になし。文字起こしをそのまま貼り付けたら完成した",
+        "rating": 5,
+        "helpfulCount": 37,
+        "createdAt": "2025-04-22"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-01"
   },
@@ -4663,7 +6046,32 @@
       "ISMS・Pマーク取得を目指す場合は、その旨を追記すると対応した内容になる"
     ],
     "usageCount": 530,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r075a",
+        "promptId": "p075",
+        "authorRole": "CTO",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "情報セキュリティポリシーを1日で内製化。ISMSコンサルタントに見せたら「基本要件は十分満たしている」と言われ、コンサルフェーズを短縮できた。",
+        "customization": "「ISO27001の要件を意識した構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 46,
+        "createdAt": "2025-04-22"
+      },
+      {
+        "id": "r075b",
+        "promptId": "p075",
+        "authorRole": "IT担当（兼任）",
+        "authorIndustry": "中小企業・製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "専任のセキュリティ担当がいない中、最低限のポリシーを整備するのに使った。難しい用語が少なく、社員への周知用としてもそのまま使えた。",
+        "customization": "「ITに詳しくない社員でも理解できる平易な言葉で」と追記",
+        "rating": 4,
+        "helpfulCount": 27,
+        "createdAt": "2025-04-25"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-03"
   },
@@ -4742,6 +6150,18 @@
         "rating": 5,
         "helpfulCount": 62,
         "createdAt": "2025-03-05"
+      },
+      {
+        "id": "r076b",
+        "promptId": "p076",
+        "authorRole": "財務担当",
+        "authorIndustry": "小売",
+        "aiTool": "ChatGPT",
+        "outcome": "毎月の月次レポートのコメント欄を埋めるのが苦手だったのが解消。数字の羅列ではなく「なぜそうなったか」の分析が自動で出てくるのが助かる。",
+        "customization": "特になし。数値を入れるだけで十分な分析コメントが出た",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-03-20"
       }
     ],
     "forks": [],
@@ -4806,6 +6226,18 @@
         "rating": 5,
         "helpfulCount": 54,
         "createdAt": "2025-03-08"
+      },
+      {
+        "id": "r077b",
+        "promptId": "p077",
+        "authorRole": "組織開発担当",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "ChatGPT",
+        "outcome": "週次チェックインシートを全マネージャーに配布。15分で終わる進捗確認が習慣化され、OKRが形骸化しなくなった。四半期末の達成率が前Qの60%→78%に改善。",
+        "customization": "「週次は数値確認のみ、月次で軌道修正するメリハリをつけた設計で」と追記",
+        "rating": 4,
+        "helpfulCount": 32,
+        "createdAt": "2025-03-25"
       }
     ],
     "forks": [],
@@ -4856,7 +6288,32 @@
       "最初の100日計画は「作る」より「売れるか確認する」ことを優先した内容になる"
     ],
     "usageCount": 870,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r078a",
+        "promptId": "p078",
+        "authorRole": "新規事業責任者",
+        "authorIndustry": "大手商社",
+        "aiTool": "Claude",
+        "outcome": "役員への新規事業提案前にBMCで整理したら、「コスト構造」の穴をAIが指摘。事前に修正できたことで役員からの突っ込みがなかった。",
+        "customization": "「大企業の既存事業とカニバらない差別化を意識した整理で」と追記",
+        "rating": 5,
+        "helpfulCount": 52,
+        "createdAt": "2025-04-05"
+      },
+      {
+        "id": "r078b",
+        "promptId": "p078",
+        "authorRole": "起業家（準備中）",
+        "authorIndustry": "EdTech",
+        "aiTool": "ChatGPT",
+        "outcome": "「最初の100日でやるべきこと」が特に刺さった。「作る前に売れるかを確認する」の視点で動いたら、MVP前に最初の顧客を獲得できた。",
+        "customization": "「EdTech（教育×テクノロジー）特有のリスクを強調して」と追記",
+        "rating": 5,
+        "helpfulCount": 47,
+        "createdAt": "2025-04-08"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-12"
   },
@@ -4915,7 +6372,32 @@
       "最初のMTGではこの提案書のエグゼクティブサマリーだけ使い、残りは質問に応じて見せる使い方がおすすめ"
     ],
     "usageCount": 480,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r079a",
+        "promptId": "p079",
+        "authorRole": "事業開発",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "パートナー候補企業への提案が「自社目線」から「相手目線」に変わった。「収益シミュレーション」を見せたら相手の食いつきが全然違った。",
+        "customization": "「最初のパイロット提携として、相手のリスクを最小化する提案で」と追記",
+        "rating": 5,
+        "helpfulCount": 39,
+        "createdAt": "2025-04-15"
+      },
+      {
+        "id": "r079b",
+        "promptId": "p079",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "大手との業務提携交渉に活用。「FAQセクション」で相手が懸念しそうな質問に先回りして答えたら、「よく考えられている」と評価された。",
+        "customization": "「規模の非対称性（大手vs中小）を踏まえ、中小側が不利にならない条件設計で」と追記",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-04-18"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-15"
   },
@@ -4964,7 +6446,32 @@
       "投資家への説明資料のリスクセクションとしてそのまま使える"
     ],
     "usageCount": 560,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r080a",
+        "promptId": "p080",
+        "authorRole": "CFO",
+        "authorIndustry": "スタートアップ",
+        "aiTool": "Claude",
+        "outcome": "VCへのピッチ資料のリスクセクションに使用。投資家から「リスクを正直に認識していて好感が持てた」と言われた。見落としていたリスクも指摘された。",
+        "customization": "「シリーズA前のスタートアップとして、スケールリスクを特に詳しく」と追記",
+        "rating": 5,
+        "helpfulCount": 49,
+        "createdAt": "2025-04-18"
+      },
+      {
+        "id": "r080b",
+        "promptId": "p080",
+        "authorRole": "新規事業担当",
+        "authorIndustry": "大手メーカー",
+        "aiTool": "ChatGPT",
+        "outcome": "「リスクを考えていない」と役員に指摘されていた提案書が、リスクマトリクスを追加したことで通過率が上がった。",
+        "customization": "「大企業の事業リスクとして、コンプライアンス・風評リスクを特に強調して」と追記",
+        "rating": 4,
+        "helpfulCount": 32,
+        "createdAt": "2025-04-20"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-18"
   },
@@ -5028,7 +6535,32 @@
       "45分の場合、スライド20枚程度の構成案が出てくる"
     ],
     "usageCount": 740,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r081a",
+        "promptId": "p081",
+        "authorRole": "代表取締役",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "全社キックオフのスクリプトを初めてAIで作成。「感情的クライマックス」のパートで社員が涙を流す場面があり、経営メッセージが初めて本当に伝わった気がした。",
+        "customization": "「過去の苦しかった時期と乗り越えた経験を、物語形式で盛り込んで」と追記",
+        "rating": 5,
+        "helpfulCount": 68,
+        "createdAt": "2025-04-15"
+      },
+      {
+        "id": "r081b",
+        "promptId": "p081",
+        "authorRole": "事業部長",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "部門方針説明会で使用。「なぜやるか」を数字ではなく言葉で語る部分が社員の心に刺さり、部門の一体感が高まった。",
+        "customization": "「現場の言葉を使って、難しいビジネス用語は使わないで」と追記",
+        "rating": 4,
+        "helpfulCount": 38,
+        "createdAt": "2025-04-18"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-20"
   },
@@ -5106,6 +6638,18 @@
         "rating": 5,
         "helpfulCount": 73,
         "createdAt": "2025-03-25"
+      },
+      {
+        "id": "r082b",
+        "promptId": "p082",
+        "authorRole": "事業開発マネージャー",
+        "authorIndustry": "製造業",
+        "aiTool": "Claude",
+        "outcome": "社内向けの新規事業提案書を「ピッチデッキ形式」で作り直したら、役員会での通過率が上がった。「投資家が聞く10の質問」を先に準備できたのが大きかった。",
+        "customization": "「社内稟議向けに、ROIと回収期間を特に強調して」と追記",
+        "rating": 4,
+        "helpfulCount": 35,
+        "createdAt": "2025-04-02"
       }
     ],
     "forks": [],
@@ -5167,7 +6711,32 @@
       "「よくある失敗」は読み上げずに資料に残すだけでも、メンバーの意識が変わる"
     ],
     "usageCount": 690,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r083a",
+        "promptId": "p083",
+        "authorRole": "PMO",
+        "authorIndustry": "大手メーカー",
+        "aiTool": "Claude",
+        "outcome": "基幹システム移行プロジェクトのキックオフに使用。RACIマトリクスが事前に整理されたことで、「誰が決める人か」が明確になり、承認の滞りが減った。",
+        "customization": "「社内政治を考慮して、各部門長がメンツを保てる役割分担で」と追記",
+        "rating": 5,
+        "helpfulCount": 55,
+        "createdAt": "2025-04-18"
+      },
+      {
+        "id": "r083b",
+        "promptId": "p083",
+        "authorRole": "事業部マネージャー",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "初めてPM役を担当した際に使用。「完了条件」を事前にメンバーと合意できたことで、後から「終わった・終わってない」論争が起きなかった。",
+        "customization": "「エンジニアが多いチームなので、技術的な完了条件も明記して」と追記",
+        "rating": 4,
+        "helpfulCount": 33,
+        "createdAt": "2025-04-20"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-03-28"
   },
@@ -5216,7 +6785,32 @@
       "「調査で確認すべき次のアクション」の質問リストが実際の現地調査で非常に役立つ"
     ],
     "usageCount": 420,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r084a",
+        "promptId": "p084",
+        "authorRole": "海外事業担当",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "ベトナム進出の初期調査に活用。JETROの担当者に「ここまで事前に整理してきた会社は珍しい」と言われ、個別相談の質が上がった。",
+        "customization": "「SaaS製品の海外展開として、データローカライゼーション規制を特に詳しく」と追記",
+        "rating": 4,
+        "helpfulCount": 39,
+        "createdAt": "2025-04-20"
+      },
+      {
+        "id": "r084b",
+        "promptId": "p084",
+        "authorRole": "中小企業経営者",
+        "authorIndustry": "食品製造",
+        "aiTool": "ChatGPT",
+        "outcome": "東南アジアへの輸出を検討する際の初期調査に使用。「次に確認すべき10の質問」が特に役立ち、現地エージェントとの初回MTGで効率的に情報収集できた。",
+        "customization": "「食品の輸出規制・食品安全基準に関する項目を詳しく」と追記",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-04-22"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-01"
   },
@@ -5255,7 +6849,32 @@
       "「ホワイトスペース」の発見が最も価値ある出力。見落としがちな市場の隙間を指摘してくれる"
     ],
     "usageCount": 780,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r085a",
+        "promptId": "p085",
+        "authorRole": "マーケティングディレクター",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "競合のウェブサイトをコピペして分析させたら、「ホワイトスペース（誰も取っていない領域）」を発見。そのポジションでコンテンツを強化したら、検索流入が2ヶ月で3倍になった。",
+        "customization": "「コンテンツマーケティングの競合分析として、SEOの強弱も分析して」と追記",
+        "rating": 5,
+        "helpfulCount": 57,
+        "createdAt": "2025-04-22"
+      },
+      {
+        "id": "r085b",
+        "promptId": "p085",
+        "authorRole": "経営企画",
+        "authorIndustry": "HR・人材",
+        "aiTool": "ChatGPT",
+        "outcome": "経営会議の「競合動向」報告に毎月使用。「競合モニタリングKPI」のアウトプットで、何を定点観測すれば良いかが明確になった。",
+        "customization": "「月次で更新し続けられる、シンプルなモニタリング指標で」と追記",
+        "rating": 4,
+        "helpfulCount": 33,
+        "createdAt": "2025-04-25"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-03"
   },
@@ -5338,6 +6957,18 @@
         "rating": 5,
         "helpfulCount": 44,
         "createdAt": "2025-04-05"
+      },
+      {
+        "id": "r086b",
+        "promptId": "p086",
+        "authorRole": "営業責任者",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "Claude",
+        "outcome": "「提出前チェックリスト」で指定フォントサイズの違反に気づき、修正して提出した。形式不備で失格になる直前だった。チェックリストを軽視してはいけない。",
+        "customization": "「評価基準の比率に合わせて、ページ数配分の目安も出して」と追記",
+        "rating": 5,
+        "helpfulCount": 38,
+        "createdAt": "2025-04-15"
       }
     ],
     "forks": [],
@@ -5410,6 +7041,18 @@
         "rating": 5,
         "helpfulCount": 56,
         "createdAt": "2025-04-08"
+      },
+      {
+        "id": "r087b",
+        "promptId": "p087",
+        "authorRole": "マーケティングマネージャー",
+        "authorIndustry": "製造業",
+        "aiTool": "Claude",
+        "outcome": "展示会後のフォローを従来は1通で終わらせていたが、5通シーケンスに変えたら商談率が1.5%→4.2%に改善。Mail 3の事例メールへの反応が特に良かった。",
+        "customization": "「製造業の担当者（調達・生産管理部門）向けに、現場の言葉で」と追記",
+        "rating": 4,
+        "helpfulCount": 29,
+        "createdAt": "2025-04-20"
       }
     ],
     "forks": [],
@@ -5484,6 +7127,18 @@
         "rating": 5,
         "helpfulCount": 48,
         "createdAt": "2025-04-10"
+      },
+      {
+        "id": "r088b",
+        "promptId": "p088",
+        "authorRole": "セールスエンジニア",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "「この事例を使うべき商談シーン」の出力が特に役立つ。どの顧客のどのフェーズで見せるべきかが整理でき、事例の活用頻度が3倍になった。",
+        "customization": "「技術的な詳細も含めた、エンジニア担当者向けのバージョンも作って」と追記",
+        "rating": 4,
+        "helpfulCount": 22,
+        "createdAt": "2025-04-22"
       }
     ],
     "forks": [],
@@ -5544,7 +7199,32 @@
       "「反論処理」は事前に準備するだけで商談中の対応が段違いに変わる"
     ],
     "usageCount": 640,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r089a",
+        "promptId": "p089",
+        "authorRole": "カスタマーサクセス",
+        "authorIndustry": "SaaS",
+        "aiTool": "Claude",
+        "outcome": "更新率90%→96%に改善した。「過去1年の成果を数値で振り返るSection 1」が最も効果的で、顧客が「こんなに使ってたんだ」と気づく瞬間がアップセルの入口になっている。",
+        "customization": "「顧客のROIを計算して、投資対効果を具体的な金額で示して」と追記",
+        "rating": 5,
+        "helpfulCount": 58,
+        "createdAt": "2025-04-25"
+      },
+      {
+        "id": "r089b",
+        "promptId": "p089",
+        "authorRole": "営業担当",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "「反論処理スクリプト」が実際の商談でそのまま使えた。「高い」と言われた時に「月10万円の投資で年間600万円節約できる計算です」と返したら即決した。",
+        "customization": "「ROIを時間コストと金額コストの両面で計算して」と追記",
+        "rating": 5,
+        "helpfulCount": 41,
+        "createdAt": "2025-04-28"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-12"
   },
@@ -5598,7 +7278,32 @@
       "この分析結果をそのまま週次営業会議の資料として使える"
     ],
     "usageCount": 450,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r090a",
+        "promptId": "p090",
+        "authorRole": "営業マネージャー",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "Q1の受注・失注データを10件ずつ入力したら、「初回商談でデモを見せた案件の受注率が3倍」という仮説が出た。チームで検証したら正しく、全員デモを優先するようになった。",
+        "customization": "「ハイパフォーマーとローパフォーマーの行動の違いを特に分析して」と追記",
+        "rating": 5,
+        "helpfulCount": 63,
+        "createdAt": "2025-04-28"
+      },
+      {
+        "id": "r090b",
+        "promptId": "p090",
+        "authorRole": "インサイドセールスリーダー",
+        "authorIndustry": "HR",
+        "aiTool": "ChatGPT",
+        "outcome": "失注理由を体系的に分析したことがなかったが、「競合負け：価格」「タイミング不一致」「意思決定者にリーチできていない」の3パターンが共通因子として判明。対策を打てた。",
+        "customization": "「失注パターンを優先度順に並べて、改善インパクトが大きい順で」と追記",
+        "rating": 4,
+        "helpfulCount": 38,
+        "createdAt": "2025-05-01"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-15"
   },
@@ -5666,6 +7371,18 @@
         "rating": 5,
         "helpfulCount": 71,
         "createdAt": "2025-04-18"
+      },
+      {
+        "id": "r091b",
+        "promptId": "p091",
+        "authorRole": "フリーランスコンサルタント",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "「NG表現リスト」が一番の収穫。「うちとしても精一杯やってます」という表現が足元を見られるサインだと初めて知った。以来使っていない。",
+        "customization": "「個人事業主vs法人クライアントの交渉として、立場を対等に見せる表現で」と追記",
+        "rating": 4,
+        "helpfulCount": 27,
+        "createdAt": "2025-04-25"
       }
     ],
     "forks": [],
@@ -5716,7 +7433,32 @@
       "「購買タイミングのトリガー」は見落とされやすいが最重要。これを知ると営業効率が3倍になる"
     ],
     "usageCount": 560,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r092a",
+        "promptId": "p092",
+        "authorRole": "インサイドセールスマネージャー",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "ICPが「中小企業の経営者」という曖昧な定義から、「従業員30〜80名・採用担当不在・製造業」に絞られた。精度が上がり、商談化率が1.8倍になった。",
+        "customization": "「今の既存顧客の共通点から逆算してICPを定義して」と追記",
+        "rating": 5,
+        "helpfulCount": 54,
+        "createdAt": "2025-05-01"
+      },
+      {
+        "id": "r092b",
+        "promptId": "p092",
+        "authorRole": "新規開拓営業",
+        "authorIndustry": "広告",
+        "aiTool": "ChatGPT",
+        "outcome": "「購買タイミングのトリガー」の概念を初めて知った。「採用媒体の掲載を増やした会社」「募集職種を変えた会社」が自社サービスのホットリードだとわかり、アプローチ効率が上がった。",
+        "customization": "「Webからわかるシグナル（求人票の変化・プレスリリース等）を購買トリガーとして」と追記",
+        "rating": 5,
+        "helpfulCount": 42,
+        "createdAt": "2025-05-03"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-20"
   },
@@ -5776,7 +7518,32 @@
       "LinkedInのAbout欄は検索キーワードが自動で含まれる構成になる"
     ],
     "usageCount": 810,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r093a",
+        "promptId": "p093",
+        "authorRole": "スタートアップCEO",
+        "authorIndustry": "HR",
+        "aiTool": "Claude",
+        "outcome": "名刺交換時に「何やってる会社ですか？」と聞かれた時の答えが毎回バラバラだったのが統一できた。30秒ピッチを暗記してから、展示会での商談数が3倍になった。",
+        "customization": "「技術系の聞き手ではなくビジネス側の聞き手に向けた言葉で」と追記",
+        "rating": 5,
+        "helpfulCount": 49,
+        "createdAt": "2025-05-03"
+      },
+      {
+        "id": "r093b",
+        "promptId": "p093",
+        "authorRole": "フリーランスコンサルタント",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "ChatGPT",
+        "outcome": "LinkedInのAbout欄をこのプロンプトで書き直したら、週1件ペースでメッセージが来るようになった。検索に引っかかるキーワードが自然に入っているのが効いた。",
+        "customization": "「Googleで検索されやすいキーワードを自然に入れて」と追記",
+        "rating": 4,
+        "helpfulCount": 31,
+        "createdAt": "2025-05-05"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-22"
   },
@@ -5835,7 +7602,32 @@
       "パートナー候補の「顧客基盤」を入れると、より具体的なシナジー提案が出てくる"
     ],
     "usageCount": 380,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r094a",
+        "promptId": "p094",
+        "authorRole": "事業開発",
+        "authorIndustry": "IT",
+        "aiTool": "Claude",
+        "outcome": "代理店開拓の提案資料に使用。「収益シミュレーション（年10件で〇〇万円）」のセクションに食いついてくれて、初回MTGで3社が前向きな返事をくれた。",
+        "customization": "「パートナーの既存事業との相乗効果を前面に出して」と追記",
+        "rating": 5,
+        "helpfulCount": 43,
+        "createdAt": "2025-05-05"
+      },
+      {
+        "id": "r094b",
+        "promptId": "p094",
+        "authorRole": "フランチャイズ本部",
+        "authorIndustry": "飲食",
+        "aiTool": "ChatGPT",
+        "outcome": "フランチャイズ加盟候補者への説明資料として活用。「今日から何をすれば良いか」の明確な導線が加盟検討者の背中を押してくれた。",
+        "customization": "「飲食フランチャイズの特性（開業準備・研修・オープンサポート）を含めて」と追記",
+        "rating": 4,
+        "helpfulCount": 27,
+        "createdAt": "2025-05-08"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-04-25"
   },
@@ -5894,6 +7686,18 @@
         "rating": 5,
         "helpfulCount": 63,
         "createdAt": "2025-04-28"
+      },
+      {
+        "id": "r095b",
+        "promptId": "p095",
+        "authorRole": "中途入社（管理職）",
+        "authorIndustry": "金融",
+        "aiTool": "Claude",
+        "outcome": "前職と全然違う社内ルールを素早くキャッチアップするのに使っている。複雑な承認フローを「具体例」で説明してもらうと理解が3倍速い。",
+        "customization": "「なぜこのルールがあるのかの背景も添えて」と追記したら腹落ち感が増した",
+        "rating": 5,
+        "helpfulCount": 34,
+        "createdAt": "2025-05-03"
       }
     ],
     "forks": [],
@@ -5954,6 +7758,18 @@
         "rating": 5,
         "helpfulCount": 88,
         "createdAt": "2025-04-28"
+      },
+      {
+        "id": "r096b",
+        "promptId": "p096",
+        "authorRole": "貿易担当",
+        "authorIndustry": "商社",
+        "aiTool": "Claude",
+        "outcome": "海外仕入先との交渉メールで「行間の読み方」が特に役立つ。英語の催促はジワジワくるタイプが多く、見落としていたことに気づかされた。",
+        "customization": "「ビジネス英語の婉曲表現（shall we revisit / looping back）を特に丁寧に解説して」と追記",
+        "rating": 5,
+        "helpfulCount": 45,
+        "createdAt": "2025-05-05"
       }
     ],
     "forks": [],
@@ -6029,6 +7845,18 @@
         "rating": 5,
         "helpfulCount": 79,
         "createdAt": "2025-04-30"
+      },
+      {
+        "id": "r097b",
+        "promptId": "p097",
+        "authorRole": "若手社員（3年目）",
+        "authorIndustry": "IT",
+        "aiTool": "ChatGPT",
+        "outcome": "「口頭スクリプト」が特に役立った。1〜2回読んでから上司のところへ行くだけで、迷わず話せるようになった。報連相に対する苦手意識がなくなった。",
+        "customization": "「上司がせっかちなタイプなので、結論を冒頭10秒で言い切れる構成で」と追記",
+        "rating": 5,
+        "helpfulCount": 52,
+        "createdAt": "2025-05-07"
       }
     ],
     "forks": [],
@@ -6103,6 +7931,18 @@
         "rating": 5,
         "helpfulCount": 94,
         "createdAt": "2025-05-01"
+      },
+      {
+        "id": "r098b",
+        "promptId": "p098",
+        "authorRole": "30代・転職活動中",
+        "authorIndustry": "コンサルティング",
+        "aiTool": "Claude",
+        "outcome": "「隠れた強み」の出力が一番驚いた。「10年間同じ職場でも変化し続けた適応力」という視点は自分では絶対に気づけなかった。面接で話したら好反応だった。",
+        "customization": "「転職回数が多い人のポジティブな解釈を意識して」と追記",
+        "rating": 5,
+        "helpfulCount": 61,
+        "createdAt": "2025-05-08"
       }
     ],
     "forks": [],
@@ -6153,7 +7993,32 @@
       "「特徴」に性格を詳しく入れると、その人に合ったトーンの質問が生成される"
     ],
     "usageCount": 620,
-    "reviews": [],
+    "reviews": [
+      {
+        "id": "r099a",
+        "promptId": "p099",
+        "authorRole": "営業部長",
+        "authorIndustry": "IT・SaaS",
+        "aiTool": "Claude",
+        "outcome": "部下のコーチングセッションに使用。「なぜクロージングが苦手か」を質問で掘り下げていったら「失敗を怖れている」という根本原因が出てきた。その後のアプローチが変わった。",
+        "customization": "「失敗を恐れる傾向のある部下に対して、心理的安全性を重視した質問で」と追記",
+        "rating": 5,
+        "helpfulCount": 47,
+        "createdAt": "2025-05-05"
+      },
+      {
+        "id": "r099b",
+        "promptId": "p099",
+        "authorRole": "人材開発担当",
+        "authorIndustry": "製造業",
+        "aiTool": "ChatGPT",
+        "outcome": "マネージャー研修でコーチング質問集を参加者に配布。「ティーチングとコーチングの使い分け」の解説が特に参加者に刺さり、研修後の1on1の質が改善したと報告が来た。",
+        "customization": "「製造現場のリーダー向けに、技術指導と育成支援の両立を意識した内容で」と追記",
+        "rating": 4,
+        "helpfulCount": 28,
+        "createdAt": "2025-05-08"
+      }
+    ],
     "forks": [],
     "createdAt": "2025-05-03"
   },
@@ -6212,6 +8077,18 @@
         "rating": 5,
         "helpfulCount": 82,
         "createdAt": "2025-05-05"
+      },
+      {
+        "id": "r100b",
+        "promptId": "p100",
+        "authorRole": "広報担当",
+        "authorIndustry": "製造業",
+        "aiTool": "Claude",
+        "outcome": "景表法の観点から「大幅に改善」「業界最高水準」という表現に指摘が入った。根拠なく使っていたことに気づき、修正して公表した。コンプライアンス的に助かった。",
+        "customization": "「製造業の広告表現として、JAS法・景表法の観点で特に厳しくチェックして」と追記",
+        "rating": 4,
+        "helpfulCount": 29,
+        "createdAt": "2025-05-10"
       }
     ],
     "forks": [],
